@@ -7,7 +7,7 @@ jobs:
       - name: Sync From Docker Hub to Aliyun
         uses: onichandame/docker-registry-sync-action@master
         with:
-          source_repository: hub.docker.com/nginx:latest
+          source_repository: registry.hub.docker.com/nginx:latest
           target_repository: https://quay.io/repository/cdis/gen3-base-images/nginx:latest
           target_username: ${{ secrets.QUAY_USERNAME }}
           target_password: ${{ secrets.QUAY_ROBOT_TOKEN }}
