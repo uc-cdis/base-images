@@ -4,12 +4,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Sync From Docker Hub to Aliyun
+      - name: Sync From Docker Hub to Quay
         uses: onichandame/docker-registry-sync-action@master
         with:
           source_repository: registry.hub.docker.com/alpine:3.10.2
           source_username: ${{ secrets.DOCKER_USERNAME }}
           source_password: ${{ secrets.DOCKER_TOKEN }}
-          target_repository: https://quay.io/repository/cdis/gen3-base-images/nginx:latest
+          target_repository: https://quay.io/repository/cdis/gen3-base-images
           target_username: ${{ secrets.QUAY_USERNAME }}
           target_password: ${{ secrets.QUAY_ROBOT_TOKEN }}
