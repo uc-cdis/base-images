@@ -1,0 +1,13 @@
+name: Sync Registry
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync From Docker Hun to Aliyun
+        uses: onichandame/docker-registry-sync-action@master
+        with:
+          source_repository: docker.io/nginx:latest
+          target_repository: https://quay.io/repository/cdis/gen3-base-images/nginx:latest
+          target_username: ${{ secrets.QUAY_USERNAME }}
+          target_password: ${{ secrets.QUAY_ROBOT_TOKEN }}
