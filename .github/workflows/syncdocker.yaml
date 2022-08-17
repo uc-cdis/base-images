@@ -9,7 +9,7 @@ jobs:
         with:
           source_repository: registry.hub.docker.com/alpine:3.10.2
           source_username: ${{ secrets.DOCKER_USERNAME }}
-          source_password: ${{ secrets.DOCKER_PASSWORD }}
+          source_password: ${{ secrets.DOCKER_TOKEN }}
           target_repository: https://quay.io/repository/cdis/gen3-base-images/nginx:latest
           target_username: ${{ secrets.QUAY_USERNAME }}
           target_password: ${{ secrets.QUAY_ROBOT_TOKEN }}
