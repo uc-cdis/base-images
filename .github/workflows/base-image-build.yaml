@@ -7,7 +7,7 @@ jobs:
     name: AmazonLinuxLatest
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./al2023r/Dockerfile"
+      DOCKERFILE_LOCATION: "./al2023/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux"
       OVERRIDE_TAG_NAME: "amazonlinuxlatest"
     secrets:
