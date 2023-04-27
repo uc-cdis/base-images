@@ -1,6 +1,10 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:latest
+ARG AZLINUX_VERSION=latest
+
+FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_VERSION}
 
 # Install dependencies
-RUN yum update -y && yum update --security -y \
+RUN yum update -y && yum update --security -y && yum install -y \
+    python3-pip \
+    pip install poetry \
     && yum clean all \
     && rm -rf /var/cache/yum
