@@ -1,0 +1,3 @@
+ARG AZLINUX_VERSION=latest
+
+FROM amazonlinux:${AZLINUX_VERSION}
