@@ -1,15 +1,16 @@
-name: Build Python Base Images and Push to Quay and ECR
-
-on: push
+name: AmazonLinux Base Image Build
+on:
+  schedule:
+    - cron: '0 0 * * 6' # Weekly on Saturday at 00:00
 
 jobs:
   BaseAmazonLinux:
     name: AmazonLinuxLatest
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./al2023/Dockerfile"
+      DOCKERFILE_LOCATION: "./amazon_linux_base/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux"
-      OVERRIDE_TAG_NAME: "amazonlinuxlatest"
+      OVERRIDE_TAG_NAME: "latest"
     secrets:
       ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
       ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
