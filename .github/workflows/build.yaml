@@ -17,10 +17,10 @@ jobs:
       # https://github.com/docker/login-action#aws-public-elastic-container-registry-ecr
       - name: Login to ECR
         uses: docker/login-action@v2
-        registry: "707767160287.dkr.ecr.us-east-1.amazonaws.com"
-        username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-        password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
         env:
+          registry: "707767160287.dkr.ecr.us-east-1.amazonaws.com"
+          username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "us-east-1"
 
       - name: Checkout
