@@ -19,9 +19,11 @@ jobs:
         uses: docker/login-action@v2
         env:
           registry: "707767160287.dkr.ecr.us-east-1.amazonaws.com"
-          username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "us-east-1"
+          credentials:
+            username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+            password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+
 
       - name: Checkout
         uses: actions/checkout@v3
