@@ -41,7 +41,7 @@ jobs:
           file:  "./amazon_linux_base/Dockerfile"
           push: true
           tags: |
-            quay.io/cdis/${{ env.REPO_NAME }}:${{ env.IMAGE_TAG }}
+            quay.io/cdis/amazonlinux:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=quay.io/cdis/${{ env.REPO_NAME }}:${{ env.IMAGE_TAG }}
           cache-to: type=inline
