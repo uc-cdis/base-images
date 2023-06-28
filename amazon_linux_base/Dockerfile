@@ -4,6 +4,6 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_VERSION}
 
 # Install dependencies
 RUN dnf update -y && dnf update --security -y && dnf install -y \
-    python3-pip git vim gcc \
+    python3-pip git vim gcc dracut-fips openssl\
     && dnf clean all \
     && rm -rf /var/cache/yum
