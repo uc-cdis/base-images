@@ -1,4 +1,4 @@
-ARG AZLINUX_VERSION=latest
+ARG AZLINUX_VERSION=2
 
 FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_VERSION}
 
