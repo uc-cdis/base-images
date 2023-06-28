@@ -42,11 +42,9 @@ jobs:
 
 
       - name: Build and push (Quay only)
-        if: ${{ inputs.USE_QUAY_ONLY }}
         uses: docker/build-push-action@v3
         with:
-          context: ${{ inputs.DOCKERFILE_BUILD_CONTEXT }}
-          file: ${{ inputs.DOCKERFILE_LOCATION }}
+          file:  "./amazon_linux_base/Dockerfile"
           push: true
           tags: |
             quay.io/cdis/${{ env.REPO_NAME }}:${{ env.IMAGE_TAG }}
