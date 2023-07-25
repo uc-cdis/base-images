@@ -1,0 +1,18 @@
+name: AmazonLinux Base Image Build
+on: 
+  push:
+    paths:
+      - amazon_linux_base/**
+
+jobs:
+  BaseAmazonLinux:
+    name: AmazonLinuxLatest
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./amazon_linux_base/Dockerfile"
+      OVERRIDE_REPO_NAME: "amazonlinux"
+    secrets:
+      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
