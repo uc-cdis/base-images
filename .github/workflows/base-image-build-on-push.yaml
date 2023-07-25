@@ -1,6 +1,8 @@
 name: AmazonLinux Base Image Build
 on: 
-  push
+  push:
+    paths:
+      - amazon_linux_base/**
 
 jobs:
   BaseAmazonLinux:
