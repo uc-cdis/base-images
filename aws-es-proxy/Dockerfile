@@ -8,7 +8,7 @@ RUN git clone https://github.com/abutaha/aws-es-proxy.git \
     CGO_ENABLED=0 GOOS=linux go build -o aws-es-proxy
 
 
-FROM ecdd48ec7ec7
+FROM aidan-test:latest
 
 LABEL name="aws-es-proxy" \
     version="latest"
