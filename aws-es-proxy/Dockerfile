@@ -9,10 +9,9 @@ RUN apk add git\
     && CGO_ENABLED=0 GOOS=linux go build -o aws-es-proxy
 
 
-FROM quay.io/cdis/golang-base:latest
+FROM quay.io/cdis/golang_base:latest
 
-LABEL name="aws-es-proxy" \
-    version="latest"
+LABEL name="aws-es-proxy"
 
 WORKDIR /home/
 COPY --from=builder /home/aws-es-proxy/aws-es-proxy /usr/local/bin/
