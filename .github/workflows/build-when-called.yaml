@@ -16,7 +16,7 @@ jobs:
     with:
       DOCKERFILE_LOCATION: "./${{ github.event.inputs.image }}/Dockerfile"
       OVERRIDE_REPO_NAME: "${{ github.event.inputs.image }}"
-      OVERRIDE_TAG_NAME: "latest"
+      OVERRIDE_TAG_NAME: "${{ github.event.inputs.tag }}"
     secrets:
       ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
       ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
