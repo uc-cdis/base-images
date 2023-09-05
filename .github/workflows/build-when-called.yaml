@@ -4,6 +4,10 @@ on:
       image:
         description: "Image name"
         required: true
+      tag:
+        description: "The tag to apply to this build. Defaults to 'latest'."
+        default: "latest"
+        required: false
 
 jobs:
   BaseAmazonLinux:
