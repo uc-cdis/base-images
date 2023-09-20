@@ -2,7 +2,7 @@ name: Weekly Image Build
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 5' # Weekly on Saturday at 00:00
+    - cron: '0 0 * * 6' # Weekly on Saturday at 00:00
 
 jobs:
   AWS_ES_PROXY:
