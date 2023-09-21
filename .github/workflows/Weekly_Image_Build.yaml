@@ -6,7 +6,7 @@ on:
 
 jobs:
   AWS_ES_PROXY:
-    name: AmazonLinuxLatest
+    name: aws-es-proxy
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./aws-es-proxy/Dockerfile"
@@ -36,6 +36,18 @@ jobs:
       DOCKERFILE_LOCATION: "./ubuntu_base/Dockerfile"
       OVERRIDE_REPO_NAME: "ubuntu"
       OVERRIDE_TAG_NAME: "22.04"
+    secrets:
+      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
+  debian_base:
+    name: DebianBase
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./debian_base/Dockerfile"
+      OVERRIDE_REPO_NAME: "debian"
+      OVERRIDE_TAG_NAME: "buster"
     secrets:
       ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
       ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
