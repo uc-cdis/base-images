@@ -20,7 +20,7 @@ jobs:
     name: Python3.9
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./python_base/Dockerfile"
+      DOCKERFILE_LOCATION: "./python_base/python3.9/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux"
     secrets:
       ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
