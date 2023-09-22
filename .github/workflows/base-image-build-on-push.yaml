@@ -1,9 +1,9 @@
 name: AmazonLinux Base Image Build on Push
-on:
-  push:
-    paths:
-      - 'amazon_linux_base/**'
-      - 'python_base/python3.9/**'
+
+on: push
+    # paths:
+    #   - 'amazon_linux_base/**'
+    #   - 'python_base/python3.9/**'
 
 jobs:
   BaseAmazonLinux:
