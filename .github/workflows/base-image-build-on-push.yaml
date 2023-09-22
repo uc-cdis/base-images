@@ -1,10 +1,6 @@
 name: AmazonLinux Base Image Build on Push
 
-on:
-  push:
-    paths:
-      - "./amazon_linux_base/Dockerfile"
-      - "./python_base/python3.9/Dockerfile"
+on: push
 
 jobs:
   BaseAmazonLinux:
