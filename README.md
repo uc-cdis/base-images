@@ -3,7 +3,7 @@
 This repo contains the base container images which are used across our code base and ensures they are rebuilt / patched weekly.  All base images must be maintained in this repo and in the approved amazonlinux, ubuntu, or debian repos using tags to appropriately label your images. 
 
 # base-image-build.yaml 
-The base-image-build.yaml runs each Saturday, it's purpose it to pull in the latest base container, patch it, install some very minimal libraries necessary, and pubish to quay and ECR.  This workflow is reserved for the "underpinning" container that all other base images call on to build.
+The base-image-build.yaml runs each Saturday, it's purpose it to pull in the latest base container, patch it, install some very minimal libraries necessary, and publish to quay and ECR.  This workflow is reserved for the "underpinning" container that all other base images call on to build.
      This is reserved for these low level images
 
 As you build base images you must make sure that you call the image built in base-image-build.yaml to ensure the latest patches and updates are applied to the image.
