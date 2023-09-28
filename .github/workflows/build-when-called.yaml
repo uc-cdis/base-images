@@ -12,7 +12,6 @@ on:
 jobs:
   BaseAmazonLinux:
     name: BuildSelectedImage
-    runs-on: self-hosted
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./${{ github.event.inputs.image }}/Dockerfile"
