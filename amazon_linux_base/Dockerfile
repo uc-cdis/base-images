@@ -6,5 +6,6 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_VERSION}
 RUN dnf update -y && dnf update --security -y && dnf install -y \
     python3-pip vim \
     python3-setuptools \
+    openssl \
     && dnf clean all \
     && rm -rf /var/cache/yum
