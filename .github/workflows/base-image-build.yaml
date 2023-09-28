@@ -7,7 +7,7 @@ on:
 jobs:
   BaseAmazonLinux:
     name: AmazonLinuxLatest
-    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    uses: uc-cdis/.github/.github/workflows/self_hosted_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./amazon_linux_base/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux"
