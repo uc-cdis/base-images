@@ -7,6 +7,7 @@ on:
 jobs:
   BaseAmazonLinux:
     name: AmazonLinuxLatest
+    runs-on: self-hosted
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./amazon_linux_base/Dockerfile"
