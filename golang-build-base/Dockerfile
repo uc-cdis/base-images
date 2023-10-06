@@ -1,6 +1,6 @@
 ARG AZLINUX_BASE_VERSION=feat_improv
 
-FROM 707767160287.dkr.ecr.region.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="golang-build-base"
 
