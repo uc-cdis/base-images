@@ -1,6 +1,6 @@
-ARG AZLINUX_BASE_VERSION=latest
+ARG AZLINUX_BASE_VERSION=feat_improv
 
-FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_BASE_VERSION}
+FROM 707767160287.dkr.ecr.region.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="python-build-base"
 LABEL version="3.9"
