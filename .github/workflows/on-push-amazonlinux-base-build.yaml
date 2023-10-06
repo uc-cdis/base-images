@@ -1,6 +1,12 @@
 name: AmazonLinux Base Image Build on Push
 
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag to apply to this build. Defaults to 'latest'."
+        default: "latest"
+        required: false
   push:
     paths:
       - amazonlinux-base/**
@@ -14,5 +20,5 @@ jobs:
     with:
       DOCKERFILE_LOCATION: "./amazonlinux-base/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux-base"
-      OVERRIDE_TAG_NAME: "$(echo ${GITHUB_REF#refs/*/} | tr / _)"
+      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
     secrets: inherit
