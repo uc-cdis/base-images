@@ -33,7 +33,7 @@ More on this in the next sections.
 
 ## Dockerfiles
 
-## Diagram
+### Diagram
 
 ```mermaid
 flowchart TD
