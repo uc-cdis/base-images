@@ -11,8 +11,13 @@ ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_CREATE=1
 
 # install python build dependencies
-RUN dnf update -y \
-    && dnf install --setopt=install_weak_deps=False --setopt=tsflags=nodocs -y python3-pip \
+RUN dnf update \
+        --assumeyes \
+    && dnf install \
+        --assumeyes \
+        --setopt=install_weak_deps=False \
+        --setopt=tsflags=nodocs \
+        python3-pip \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
