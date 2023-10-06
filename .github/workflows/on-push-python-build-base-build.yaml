@@ -1,0 +1,24 @@
+name: Python Build Base Image Build on Push
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag to apply to this build. Defaults to 'latest'."
+        default: "latest"
+        required: false
+  push:
+    paths:
+      - python-build-base/**
+  schedule:
+    - cron: '0 0 * * 6' # Weekly on Sunday at 00:00
+
+jobs:
+  PythonBuildBase:
+    name: Build Python build base image
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./python-build-base/3.9/Dockerfile"
+      OVERRIDE_REPO_NAME: "python-build-base"
+      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+    secrets: inherit
