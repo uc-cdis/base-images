@@ -1,0 +1,20 @@
+name: Python Build Base Image Build on Push
+
+on:
+  push:
+    paths:
+      - python-build-base/**
+
+jobs:
+  PythonBuildBase:
+    name: PythonBuildBase
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./python-build-base/Dockerfile"
+      OVERRIDE_REPO_NAME: "python-build-base"
+      OVERRIDE_TAG_NAME: "python-build-base-$(echo ${GITHUB_REF#refs/*/} | tr / _)"
+    secrets:
+      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}

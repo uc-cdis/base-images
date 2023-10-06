@@ -18,3 +18,13 @@ This is meant for development purposes, you can add your image to this so it wil
 # Retention of Images
   ** Retention of images built are limited to 30 days **
   Since all base images are to be rebuilt on a weekly basis to ensure our compliance automation will automatically remove images older than 30 days.  
+
+# New section (under construction :construction:)
+
+Three base images:
+
+```mermaid
+flowchart TD
+    A[base image] --> B[golang build base]
+    A --> C[python3 build base]
+```
