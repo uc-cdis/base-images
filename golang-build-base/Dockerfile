@@ -11,6 +11,7 @@ RUN dnf update \
         --assumeyes \
         --setopt=install_weak_deps=False \
         --setopt=tsflags=nodocs \
+        git \
         golang \
     && dnf clean all \
     && rm -rf /var/cache/yum
