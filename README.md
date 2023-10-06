@@ -63,7 +63,7 @@ Each Dockerfile and folder has it's own single workflow, which will run only for
 1. Make sure the ECR repository is created.
 2. Copy and edit template workflow. *Be consistent with the naming.*
 
-```
+```dockerfile
 ARG AZLINUX_BASE_VERSION=master
 
 FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
@@ -84,7 +84,7 @@ RUN dnf update \
 
 3. Copy and edit workflow file.
 
-```
+```yaml
 name: <new-image> Image Build on Push
 
 on:
