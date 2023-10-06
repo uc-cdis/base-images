@@ -1,9 +1,9 @@
-ARG AZLINUX_BASE_VERSION=2023
+ARG AZLINUX_BASE_VERSION=latest
 
 # FROM 707767160287.dkr.ecr.region.amazonaws.com/amazonlinux/base:${AZLINUX_BASE_VERSION}
 FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_BASE_VERSION}
 
-LABEL name="python-base"
+LABEL name="python-build-base"
 LABEL version="3.9"
 
 ENV POETRY_NO_INTERACTION=1 \
