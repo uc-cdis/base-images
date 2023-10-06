@@ -16,6 +16,7 @@ RUN dnf update \
         --assumeyes \
         --setopt=install_weak_deps=False \
         --setopt=tsflags=nodocs \
+        git \
         python3-pip \
     && dnf clean all \
     && rm -rf /var/cache/yum
