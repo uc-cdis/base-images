@@ -4,17 +4,15 @@ on:
   push:
     paths:
       - golang-build-base/**
+  schedule:
+    - cron: '0 0 * * 6' # Weekly on Sunday at 00:00
 
 jobs:
   GolangBuildBase:
-    name: GolangBuildBase
+    name: Build Go build base image
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./golang-build-base/Dockerfile"
       OVERRIDE_REPO_NAME: "golang-build-base"
-      OVERRIDE_TAG_NAME: "golang-build-base-$(echo ${GITHUB_REF#refs/*/} | tr / _)"
-    secrets:
-      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
+      OVERRIDE_TAG_NAME: "$(echo ${GITHUB_REF#refs/*/} | tr / _)"
+    secrets: inherit

@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - python-build-base/**
+  schedule:
+    - cron: '0 0 * * 6' # Weekly on Sunday at 00:00
 
 jobs:
   PythonBuildBase:

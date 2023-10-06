@@ -6,7 +6,12 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_BASE_VERSION}
 LABEL name="golang-base"
 
 # install golang
-RUN dnf update -y \
-    && dnf install --setopt=install_weak_deps=False --setopt=tsflags=nodocs -y golang \
+RUN dnf update \
+        --assumeyes \
+    && dnf install \
+        --assumeyes \
+        --setopt=install_weak_deps=False \
+        --setopt=tsflags=nodocs \
+        golang \
     && dnf clean all \
     && rm -rf /var/cache/yum
