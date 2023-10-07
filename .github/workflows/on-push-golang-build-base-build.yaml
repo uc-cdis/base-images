@@ -11,7 +11,7 @@ on:
     paths:
       - golang-build-base/**
   schedule:
-    - cron: '0 0 * * 6' # Weekly on Sunday at 00:00
+    - cron: '0 0 * * 0' # Weekly on Sunday at 00:00
 
 jobs:
   GolangBuildBase:

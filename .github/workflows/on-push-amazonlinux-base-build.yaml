@@ -11,7 +11,7 @@ on:
     paths:
       - amazonlinux-base/**
   schedule:
-    - cron: '0 0 * * 5' # Weekly on Saturday at 00:00
+    - cron: '0 0 * * 6' # Weekly on Saturday at 00:00
 
 jobs:
   AmazonLinuxBase2023:
