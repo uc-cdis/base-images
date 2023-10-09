@@ -1,4 +1,4 @@
-name: Golang Build Base Image Build on Push
+name: AmazonLinux Base Image Build on Push
 
 on:
   workflow_dispatch:
@@ -9,16 +9,16 @@ on:
         required: false
   push:
     paths:
-      - golang-build-base/**
+      - amazonlinux-base/**
   schedule:
-    - cron: '0 0 * * 6' # Weekly on Sunday at 00:00
+    - cron: '0 0 * * 6' # Weekly on Saturday at 00:00
 
 jobs:
-  GolangBuildBase:
-    name: Build Go build base image
+  AmazonLinuxBase2023:
+    name: Build AmazonLinux base image
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./golang-build-base/Dockerfile"
-      OVERRIDE_REPO_NAME: "golang-build-base"
+      DOCKERFILE_LOCATION: "./amazonlinux-base/Dockerfile"
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
     secrets: inherit
