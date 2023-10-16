@@ -25,3 +25,6 @@ RUN dnf update \
 
 # create empty virtualenv
 RUN python3 -m venv /venv
+
+ENV ENV PATH="/venv/bin:$PATH" \
+    VIRTUAL_ENV="/venv"
