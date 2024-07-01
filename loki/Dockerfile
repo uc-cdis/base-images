@@ -2,7 +2,6 @@ FROM quay.io/cdis/golang-build-base:master
 
 ENV LOKI_VERSION=2.9.1
 
-RUN mkdir -p /usr/bin/
 RUN mkdir -p /etc/loki/
 
 RUN curl -L https://github.com/grafana/loki/releases/download/v${LOKI_VERSION}/loki-linux-amd64.zip -o loki-linux-amd64.zip && \
