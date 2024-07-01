@@ -4,7 +4,7 @@ ENV LOKI_VERSION=2.9.1
 
 RUN mkdir -p /etc/loki/
 
-RUN curl -L -v --retry 5 https://github.com/grafana/loki/releases/download/v${LOKI_VERSION}loki-linux-amd64.zip -o loki-linux-amd64.zip && \
+RUN curl -L https://github.com/grafana/loki/releases/download/v${LOKI_VERSION}/loki-linux-amd64.zip -o loki-linux-amd64.zip && \
     unzip loki-linux-amd64.zip && \
     mv loki-linux-amd64 /usr/bin/loki && \
     chmod +x /usr/bin/loki
