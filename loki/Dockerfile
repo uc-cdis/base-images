@@ -4,7 +4,7 @@ FROM quay.io/cdis/golang-build-base:master
 
 RUN mkdir -p /etc/loki/
 
-RUN wget -O https://github.com/grafana/loki/releases/download/v2.9.1/loki-linux-amd64.zip -o loki-linux-amd64.zip && \
+RUN curl -L -v --retry 5 https://github.com/grafana/loki/releases/download/v2.9.1/loki-linux-amd64.zip -o loki-linux-amd64.zip && \
     unzip loki-linux-amd64.zip && \
     mv loki-linux-amd64 /usr/bin/loki && \
     chmod +x /usr/bin/loki
