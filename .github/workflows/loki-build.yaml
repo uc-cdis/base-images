@@ -21,5 +21,5 @@ jobs:
       DOCKERFILE_LOCATION: "./loki/Dockerfile"
       OVERRIDE_REPO_NAME: "loki"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
-      LOKI_VERSION: 2.9.1
+      LOKI_VERSION: "2.9.1"
     secrets: inherit
