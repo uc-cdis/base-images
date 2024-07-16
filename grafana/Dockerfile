@@ -14,8 +14,7 @@ RUN groupadd -g 472 grafana && \
     useradd -u 472 grafana -g grafana
 
 RUN dnf install -y grafana-${GRAFANA_VERSION} && \
-    chown -R grafana:grafana /usr/share/grafana && \
-    chmod -R 777 /etc/grafana/provisioning /var/lib/grafana /var/log/grafana 
+    chown -R grafana:grafana /usr/share/grafana /etc/grafana
 
 USER grafana
 WORKDIR /usr/share/grafana
