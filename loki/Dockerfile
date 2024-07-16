@@ -8,7 +8,7 @@ RUN dnf install -y wget && \
 
 COPY grafana.repo /etc/yum.repos.d/
 
-RUN dnf install -y loki-${LOKI_VERSION} promtail-${LOKI_VERSION}
+RUN dnf install -y loki-${LOKI_VERSION}
 
 COPY loki-config.yaml /etc/loki/local-config.yaml
 
