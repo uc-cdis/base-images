@@ -18,8 +18,9 @@ jobs:
     name: Build Grafana image
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./alloy/Dockerfile"
+      DOCKERFILE_LOCATION: "./grafana/Dockerfile"
       OVERRIDE_REPO_NAME: "grafana"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
       BUILD_PLATFORMS: "linux/amd64"
+      DOCKERFILE_BUILD_CONTEXT: "./grafana"
     secrets: inherit
