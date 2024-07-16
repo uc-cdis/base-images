@@ -1,0 +1,25 @@
+name: Grafana Image Build on Push
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag to apply to this build. Defaults to 'latest'."
+        default: "latest"
+        required: false
+  push:
+    paths:
+      - grafana/**
+  schedule:
+    - cron: '0 0 * * 0' # Weekly on Sunday at 00:00
+
+jobs:
+  GrafanaBuildBase:
+    name: Build Grafana image
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./alloy/Dockerfile"
+      OVERRIDE_REPO_NAME: "grafana"
+      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+      BUILD_PLATFORMS: "linux/amd64"
+    secrets: inherit
