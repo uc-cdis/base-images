@@ -7,7 +7,7 @@ RUN curl -fLo mimir "https://github.com/grafana/mimir/releases/download/$MIMIR_V
     mv mimir /bin/mimir && \
     chmod +x /bin/mimir
 
-RUN  yum install shadow-utils -y
+RUN yum install shadow-utils -y
 
 RUN groupadd -g 10001 mimir && \
     useradd -u 10001 mimir -g mimir
