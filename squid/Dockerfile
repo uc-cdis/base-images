@@ -23,6 +23,9 @@ RUN mkdir -p /var/spool/squid
 # Create log directory (adjust path if needed)
 RUN mkdir -p /var/log/squid
 
+# Run updates
+RUN dnf update -y && dnf upgrade -y
+
 # Set ownership and permissions for Squid directories
 RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid
 

@@ -29,6 +29,29 @@ Build base image used to build Go code.
 
 Build base image used to install dependencies and manage virtualenv for Python code.
 
+## Application Dockerfiles Requirements
+Applications must be run as a user with a specific UID and GID. This is to ensure that the application runs with the correct permissions and does not run as root.
+```dockerfile
+ARG AZLINUX_BASE_VERSION=master
+
+FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+# Create a new user with a specific UID and GID
+RUN useradd --uid 1000 --gid 1000 appuser
+
+# Copy your application files
+COPY . /app
+
+# Switch to the created user
+USER appuser
+
+# Set the working directory
+WORKDIR /app
+
+# Command to run your application
+CMD ["/bin/bash", "-c", "./your_app"]
+
+```
+
 ## Workflows
 
 Each Dockerfile and folder has it's own single workflow, which will run only for the changes in this specific Dockerfile on push, on schedule and on demand using `workflow_dispatch`.
