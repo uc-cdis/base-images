@@ -1,6 +1,6 @@
 FROM quay.io/cdis/amazonlinux-base:master
 
-ENV GRAFANA_VERSION=11.1.0
+ENV GRAFANA_VERSION=11.2.0
 
 RUN dnf install -y wget && \
     wget -q -O gpg.key https://rpm.grafana.com/gpg.key && \
