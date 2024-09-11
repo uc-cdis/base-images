@@ -34,6 +34,6 @@ EXPOSE 3128/tcp
 EXPOSE 3129/tcp
 EXPOSE 3130/tcp
 
-# Start Squid service as the squid user
+# Start Squid service as the Squid user
 USER squid
 CMD ["squid", "-Nyd"]
