@@ -9,7 +9,7 @@ on:
         required: false
   push:
     paths:
-      - python-build-base/**
+      - squid/**
   schedule:
     - cron: '0 0 * * 0' # Weekly on Sunday at 00:00
 
