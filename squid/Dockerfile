@@ -21,7 +21,7 @@ RUN echo 'http_access allow safe_ports' >> /etc/squid/squid.conf
 RUN mkdir -p /var/spool/squid
 
 # Create log directory (adjust path if needed)
-RUN mkdir -p /var/log/squid
+RUN mkdir -p /var/log/squid && chmod -R 755 /var/log/squid
 
 # Run updates
 RUN dnf update -y && dnf upgrade -y
@@ -37,5 +37,5 @@ EXPOSE 3130/tcp
 # Start Squid service as the Squid user
 USER squid
 
-CMD ["squid", "-N", "-d", "1"]
+CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
 # CMD ["squid", "-Nyd"]
