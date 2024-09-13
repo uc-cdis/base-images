@@ -27,7 +27,7 @@ RUN mkdir -p /var/log/squid
 RUN dnf update -y && dnf upgrade -y
 
 # Set ownership and permissions for Squid directories
-RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid
+RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid /run/
 
 # Expose Squid Ports
 EXPOSE 3128/tcp
@@ -36,4 +36,6 @@ EXPOSE 3130/tcp
 
 # Start Squid service as the Squid user
 USER squid
-CMD ["squid", "-Nyd"]
+
+CMD ["squid", "-N", "-d", "1"]
+# CMD ["squid", "-Nyd"]
