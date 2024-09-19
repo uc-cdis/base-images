@@ -1,5 +1,6 @@
 ARG AZLINUX_BASE_VERSION=master
-FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+# FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+FROM quay.io/cdis/amazonlinux-base:master
 
 # Update package lists and install the latest packages
 RUN dnf update -y && dnf upgrade -y
@@ -29,7 +30,7 @@ RUN dnf update -y && dnf upgrade -y
 # Set ownership and permissions for Squid directories
 RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid /run/
 
-RUN mkdir -p /var/run/squid && chown squid:squid /var/run/squid && chmod 755 /var/run/squid
+# RUN mkdir -p /var/run/squid && chown squid:squid /var/run/squid && chmod 755 /var/run/squid
 
 # Expose Squid Ports
 EXPOSE 3128/tcp
@@ -37,7 +38,7 @@ EXPOSE 3129/tcp
 EXPOSE 3130/tcp
 
 # Start Squid service as the Squid user
-USER squid
+# USER squid
 
 CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
 # CMD ["squid", "-Nyd"]
