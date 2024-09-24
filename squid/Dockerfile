@@ -3,7 +3,8 @@ ARG AZLINUX_BASE_VERSION=master
 FROM quay.io/cdis/amazonlinux-base:master
 
 # Update package lists and install the latest packages
-RUN dnf update -y && dnf upgrade -y
+RUN dnf update -y && dnf upgrade -y && \
+    dnf -y install openssl-devel
 
 # Create a non-root user for Squid with a strong random password
 RUN useradd -m -s /bin/bash squid
@@ -30,15 +31,10 @@ RUN dnf update -y && dnf upgrade -y
 # Set ownership and permissions for Squid directories
 RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid /run/
 
-# RUN mkdir -p /var/run/squid && chown squid:squid /var/run/squid && chmod 755 /var/run/squid
-
 # Expose Squid Ports
 EXPOSE 3128/tcp
 EXPOSE 3129/tcp
 EXPOSE 3130/tcp
 
-# Start Squid service as the Squid user
-# USER squid
 
 CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
-# CMD ["squid", "-Nyd"]
