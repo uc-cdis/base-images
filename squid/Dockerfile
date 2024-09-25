@@ -20,7 +20,7 @@ RUN echo 'acl safe_ports port 80' >> /etc/squid/squid.conf
 RUN echo 'http_access allow safe_ports' >> /etc/squid/squid.conf
 
 # Create cache directory (adjust path if needed)
-RUN mkdir -p /var/spool/squid
+RUN mkdir -p /var/cache/squid
 
 # Create log directory (adjust path if needed)
 RUN mkdir -p /var/log/squid && chmod -R 755 /var/log/squid
@@ -29,7 +29,7 @@ RUN mkdir -p /var/log/squid && chmod -R 755 /var/log/squid
 RUN dnf update -y && dnf upgrade -y
 
 # Set ownership and permissions for Squid directories
-RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid /run/
+RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid /run/ /var/cache/squid /var/run/squid
 
 # Expose Squid Ports
 EXPOSE 3128/tcp
