@@ -34,7 +34,7 @@ RUN dnf install squid -y
 
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
 
-# Run updates
+# Run updates 
 RUN dnf update -y && dnf upgrade -y
 
 # # Set ownership and permissions for Squid directories

@@ -20,4 +20,5 @@ if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     $(which squid) -N -f ${SQUID_SYSCONFIG_DIR}/squid.conf -z
 fi
 echo "Starting squid..."
+sleep 500000000
 exec $(which squid) -N -d 2 -f ${SQUID_SYSCONFIG_DIR}/squid.conf
