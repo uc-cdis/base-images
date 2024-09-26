@@ -29,7 +29,7 @@ RUN dnf install squid -y
 # # Create cache directory (adjust path if needed)
 # RUN mkdir -p /var/cache/squid
 
-# # Create log directory (adjust path if needed)
+# # Create log directory (adjust path if needed) 
 # RUN mkdir -p /var/log/squid && chmod -R 755 /var/log/squid
 
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
