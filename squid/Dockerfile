@@ -32,7 +32,7 @@ RUN dnf install squid -y
 # # Create log directory (adjust path if needed)
 # RUN mkdir -p /var/log/squid && chmod -R 755 /var/log/squid
 
-COPY ./entrypoint.sh /usr/sbin/entrypoint.sh
+COPY entrypoint.sh /usr/sbin/entrypoint.sh
 
 # Run updates
 RUN dnf update -y && dnf upgrade -y
