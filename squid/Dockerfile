@@ -37,4 +37,5 @@ EXPOSE 3129/tcp
 EXPOSE 3130/tcp
 
 
-CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
+# CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
+CMD ["sleep", "30000"]
