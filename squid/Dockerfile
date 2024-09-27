@@ -19,19 +19,6 @@ RUN useradd -m -s /bin/bash squid
 # Install required packages
 RUN dnf install squid -y
 
-# # Create Squid configuration directory
-# RUN mkdir -p /etc/squid
-
-# # Basic Squid Configuration (adjust as needed)
-# RUN echo 'acl safe_ports port 80' >> /etc/squid/squid.conf
-# RUN echo 'http_access allow safe_ports' >> /etc/squid/squid.conf
-
-# # Create cache directory (adjust path if needed)
-# RUN mkdir -p /var/cache/squid
-
-# # Create log directory (adjust path if needed) 
-# RUN mkdir -p /var/log/squid && chmod -R 755 /var/log/squid
-
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
 
 # Run updates 
