@@ -15,6 +15,8 @@ create_cache_dir() {
 create_log_dir
 create_cache_dir
 
+chown -r ${SQUID_USER}:${SQUID_USER} ${SQUID_PID_DIR} ${SQUID_SYSCONFIG_DIR}
+
 if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     echo "Initializing cache..."
     $(which squid) -N -f ${SQUID_SYSCONFIG_DIR}/squid.conf -z
