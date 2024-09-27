@@ -45,6 +45,7 @@ EXPOSE 3128/tcp
 EXPOSE 3129/tcp
 EXPOSE 3130/tcp
 
+VOLUME ${SQUID_LOG_DIR} ${SQUID_CACHE_DIR} ${SQUID_PID_DIR} ${SQUID_SYSCONFIG_DIR}
 
 # CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
