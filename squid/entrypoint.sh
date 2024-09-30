@@ -15,6 +15,7 @@ create_cache_dir() {
 create_log_dir
 create_cache_dir
 
+mkdir -p ${SQUID_PID_DIR} ${SQUID_SYSCONFIG_DIR}
 chmod -R 755 ${SQUID_PID_DIR} ${SQUID_SYSCONFIG_DIR}
 chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_PID_DIR} ${SQUID_SYSCONFIG_DIR}
 
