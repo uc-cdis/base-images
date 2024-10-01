@@ -23,11 +23,14 @@ create_log_dir
 create_cache_dir
 apply_backward_compatibility_fixes
 
-
 if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     echo "Initializing cache..."
     $(which squid) -N -f ${SQUID_SYSCONFIG_DIR}/squid.conf -z
 fi
+
+RUN mkdir -p ${SQUID_CACHE_DIR}/ssl_db
+RUN /usr/lib64/squid/security_file_certgen -c -s ${SQUID_CACHE_DIR}/ssl_db -M 4MB
+
 echo "Starting squid..."
 sleep 500000000
 exec $(which squid) -N -d 2 -f ${SQUID_SYSCONFIG_DIR}/squid.conf
