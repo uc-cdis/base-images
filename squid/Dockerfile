@@ -1,5 +1,5 @@
-# ARG AZLINUX_BASE_VERSION=master
-# FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+ARG AZLINUX_BASE_VERSION=master
+FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 FROM quay.io/cdis/amazonlinux-base:master
 
@@ -19,6 +19,7 @@ RUN useradd -m -s /bin/bash squid
 # Install required packages
 RUN dnf install squid -y
 
+# Copy in entrypoint script
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
 
 # Run updates 
