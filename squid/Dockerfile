@@ -24,9 +24,6 @@ COPY entrypoint.sh /usr/sbin/entrypoint.sh
 # Run updates 
 RUN dnf update -y && dnf upgrade -y
 
-# # Set ownership and permissions for Squid directories
-# RUN chown -R squid:squid /etc/squid /var/spool/squid /var/log/squid /run/ /var/cache/squid /var/run/squid
-
 # Expose Squid Ports
 EXPOSE 3128/tcp
 EXPOSE 3129/tcp
@@ -34,6 +31,4 @@ EXPOSE 3130/tcp
 
 VOLUME ${SQUID_LOG_DIR} ${SQUID_CACHE_DIR} ${SQUID_PID_DIR} ${SQUID_SYSCONFIG_DIR}
 
-# CMD ["squid", "-N", "-d", "2", "-f", "/etc/squid/squid.conf"]
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
-# CMD ["sleep", "30000"]
