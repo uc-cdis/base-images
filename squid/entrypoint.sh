@@ -12,21 +12,21 @@ create_cache_dir() {
     chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_CACHE_DIR}
 }
 
-apply_backward_compatibility_fixes() {
-    if [[ -f ${SQUID_SYSCONFIG_DIR}/squid.user.conf ]]; then
-        rm -rf ${SQUID_SYSCONFIG_DIR}/squid.conf
-        ln -sf ${SQUID_SYSCONFIG_DIR}/squid.user.conf ${SQUID_SYSCONFIG_DIR}/squid.conf
-    fi
-}
+# apply_backward_compatibility_fixes() {
+#     if [[ -f ${SQUID_SYSCONFIG_DIR}/squid.user.conf ]]; then
+#         rm -rf ${SQUID_SYSCONFIG_DIR}/squid.conf
+#         ln -sf ${SQUID_SYSCONFIG_DIR}/squid.user.conf ${SQUID_SYSCONFIG_DIR}/squid.conf
+#     fi
+# }
 
 create_log_dir
 create_cache_dir
-apply_backward_compatibility_fixes
+# apply_backward_compatibility_fixes
 
-if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
-    echo "Initializing cache..."
-    $(which squid) -N -f ${SQUID_SYSCONFIG_DIR}/squid.conf -z
-fi
+# if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
+#     echo "Initializing cache..."
+#     $(which squid) -N -f ${SQUID_SYSCONFIG_DIR}/squid.conf -z
+# fi
 
 
 rm -rf ${SQUID_CACHE_DIR}/ssl_db
