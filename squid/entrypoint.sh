@@ -28,8 +28,9 @@ if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     $(which squid) -N -f ${SQUID_SYSCONFIG_DIR}/squid.conf -z
 fi
 
-mkdir -p ${SQUID_CACHE_DIR}/ssl_db
 /usr/lib64/squid/security_file_certgen -c -s ${SQUID_CACHE_DIR}/ssl_db -M 4MB
+chown -R squid:squid /var/cache/squid/ssl_db
+chmod -R 755 /var/cache/squid/ssl_db
 
 echo "Starting squid..."
 sleep 500000000
