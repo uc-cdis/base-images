@@ -23,4 +23,4 @@ RUN yum install shadow-utils -y && \
 RUN chown -R rollout-operator:rollout-operator /bin/
 
 USER rollout-operator
-ENTRYPOINT [ "/bin/rollout-operator" ]
+ENTRYPOINT [ "/bin/rollout-operator"  ]

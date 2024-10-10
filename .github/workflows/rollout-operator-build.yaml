@@ -21,6 +21,5 @@ jobs:
       DOCKERFILE_LOCATION: "./rollout-operator/Dockerfile"
       OVERRIDE_REPO_NAME: "rollout-operator"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
-      BUILD_PLATFORMS: "linux/amd64"
       DOCKERFILE_BUILD_CONTEXT: "./rollout-operator"
     secrets: inherit
