@@ -6,9 +6,13 @@ ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG BUILDTARGET=rollout-operator
 
-RUN git config --global http.lowSpeedLimit 0 && \
-    git config --global http.lowSpeedTime 999 && \
-    git clone https://github.com/grafana/rollout-operator.git --branch v${ROLLOUT_VERSION} --depth 1 /src/rollout-operator
+# RUN git clone https://github.com/grafana/rollout-operator.git --branch v${ROLLOUT_VERSION} --depth 1 /src/rollout-operator
+
+RUN curl -L -o rollout-operator.tar.gz https://github.com/grafana/rollout-operator/archive/refs/tags/v${ROLLOUT_VERSION}.tar.gz && \
+    mkdir /src/rollout-operator && \
+    tar -xzvf rollout-operator.tar.gz -C /src/rollout-operator --strip-components=1 && \
+    rm rollout-operator.tar.gz
+
 
 WORKDIR /src/rollout-operator
 
