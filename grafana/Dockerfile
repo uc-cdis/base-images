@@ -1,6 +1,6 @@
 FROM quay.io/cdis/amazonlinux-base:master
 
-ENV GRAFANA_VERSION=11.2.0
+ENV GRAFANA_VERSION=11.2.2+security~01-1
 
 RUN dnf install -y wget && \
     wget -q -O gpg.key https://rpm.grafana.com/gpg.key && \
@@ -13,7 +13,9 @@ RUN  yum install shadow-utils -y
 RUN groupadd -g 472 grafana && \
     useradd -u 472 grafana -g grafana
 
-RUN dnf install -y grafana-${GRAFANA_VERSION} && \
+# Revert back to old way of insatlling grafana when it's available.  
+# RUN dnf install -y grafana-${GRAFANA_VERSION} && \
+RUN yum install -y https://dl.grafana.com/oss/release/grafana-${GRAFANA_VERSION}.x86_64.rpm &&
     chown -R grafana:grafana /usr/share/grafana /etc/grafana
 
 USER grafana
