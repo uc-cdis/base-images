@@ -15,7 +15,7 @@ RUN groupadd -g 472 grafana && \
 
 # Revert back to old way of insatlling grafana when it's available.  
 # RUN dnf install -y grafana-${GRAFANA_VERSION} && \
-RUN yum install -y https://dl.grafana.com/oss/release/grafana-${GRAFANA_VERSION}.x86_64.rpm &&
+RUN yum install -y https://dl.grafana.com/oss/release/grafana-${GRAFANA_VERSION}.x86_64.rpm && \
     chown -R grafana:grafana /usr/share/grafana /etc/grafana
 
 USER grafana
