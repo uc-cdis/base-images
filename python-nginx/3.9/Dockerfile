@@ -1,7 +1,7 @@
 ARG AZLINUX_BASE_VERSION=master
 
 # For local development
-# FROM quay.io/cdis/amazonlinux-base:master
+# FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
@@ -14,7 +14,7 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1
 
-# install python build dependencies
+# Install python build dependencies
 RUN dnf update \
         --assumeyes \
     && dnf install \
@@ -26,14 +26,16 @@ RUN dnf update \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# install poetry
-RUN pip install --upgrade poetry 
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# create gen3 user
+ENV PATH="/root/.local/bin:$PATH"
+
+# Create gen3 user
 RUN groupadd -g 1000 gen3 && \
     useradd -m -s /bin/bash -u 1000 -g gen3 gen3
 
-# install nginx
+# Install nginx
 RUN yum install nginx -y && \
     # allows nginx to run on port 80 without being root user
     setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
@@ -44,6 +46,6 @@ RUN yum install nginx -y && \
     mkdir -p /var/lib/nginx/tmp/client_body && \
     chown -R gen3:gen3 /var/lib/nginx/
 
-# copy nginx config
+# Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
 
