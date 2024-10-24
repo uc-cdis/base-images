@@ -26,10 +26,8 @@ RUN dnf update \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
-
-ENV PATH="/root/.local/bin:$PATH"
+# Install poetry
+RUN pip install --upgrade poetry
 
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
