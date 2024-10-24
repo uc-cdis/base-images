@@ -38,7 +38,7 @@ RUN yum install nginx -y && \
     # allows nginx to run on port 80 without being root user
     setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
     chown -R gen3:gen3 /var/log/nginx && \
-    # pipe nginx logs to stdout and stderr
+    # pipe nginx logs to stdout/stderr
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     mkdir -p /var/lib/nginx/tmp/client_body && \
