@@ -45,5 +45,5 @@ RUN yum install nginx -y && \
     chown -R gen3:gen3 /var/lib/nginx/
 
 # copy nginx config
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
