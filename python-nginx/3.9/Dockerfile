@@ -1,9 +1,9 @@
 ARG AZLINUX_BASE_VERSION=master
 
 # For local development
-# FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
+FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
-FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+# FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="python-nginx-build-base"
 LABEL version="3.9"
@@ -26,8 +26,12 @@ RUN dnf update \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# Install poetry
-RUN pip install --upgrade poetry
+# Install pipx
+RUN python3 -m pip install pipx && \
+    python3 -m pipx ensurepath
+
+# Install Poetry via pipx
+RUN pipx install poetry
 
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
