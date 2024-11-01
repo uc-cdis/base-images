@@ -16,7 +16,7 @@ RUN dnf install git tar --assumeyes && \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
-    && nvm use defaultdocker 
+    && nvm use default
 
 
 ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
