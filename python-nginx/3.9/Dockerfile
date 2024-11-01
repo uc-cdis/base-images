@@ -49,6 +49,7 @@ USER gen3
 # Install Poetry via pipx
 RUN pipx install poetry
 ENV PATH="/home/gen3/.local/bin:${PATH}"
+USER root
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
