@@ -30,10 +30,6 @@ RUN dnf update \
 RUN python3 -m pip install pipx && \
     python3 -m pipx ensurepath
 
-# Install Poetry via pipx
-RUN pipx install poetry
-ENV PATH="/root/.local/bin:${PATH}"
-
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
     useradd -m -s /bin/bash -u 1000 -g gen3 gen3
@@ -48,6 +44,11 @@ RUN yum install nginx -y && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     mkdir -p /var/lib/nginx/tmp/client_body && \
     chown -R gen3:gen3 /var/lib/nginx/
+
+USER gen3
+# Install Poetry via pipx
+RUN pipx install poetry
+ENV PATH="/home/gen3/.local/bin:${PATH}"
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
