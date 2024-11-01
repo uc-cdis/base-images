@@ -10,6 +10,18 @@ LABEL name="nodejs-build-base"
 ENV NVM_DIR=/root/.nvm
 ENV NODE_VERSION=v16.20.2
 
+# # Install python build dependencies
+# RUN dnf update \
+#         --assumeyes \
+#     && dnf install \
+#         --assumeyes \
+#         --setopt=install_weak_deps=False \
+#         --setopt=tsflags=nodocs \
+#         tar \
+#         git \
+#     && dnf clean all \
+#     && rm -rf /var/cache/yum
+
 # Install nvm
 RUN dnf install git tar --assumeyes && \
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
