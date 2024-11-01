@@ -25,7 +25,7 @@ RUN dnf install git tar --assumeyes
 ENV NVM_DIR=/home/gen3/.nvm
 ENV NODE_VERSION=v16.20.2
 ENV NODE_PATH=$NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
-ENV PATH=$NVM_DIR/v$NODE_VERSION/bin:$PATH
+ENV PATH=$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
