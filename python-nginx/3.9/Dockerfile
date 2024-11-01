@@ -32,6 +32,7 @@ RUN python3 -m pip install pipx && \
 
 # Install Poetry via pipx
 RUN pipx install poetry
+ENV PATH="/root/.local/bin:${PATH}"
 
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
