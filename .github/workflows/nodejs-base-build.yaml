@@ -21,6 +21,5 @@ jobs:
       DOCKERFILE_LOCATION: "./nodejs-base/Dockerfile"
       OVERRIDE_REPO_NAME: "nodejs-base"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
-      BUILD_PLATFORMS: "linux/amd64"
       DOCKERFILE_BUILD_CONTEXT: "./nodejs-base"
     secrets: inherit
