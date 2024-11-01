@@ -28,7 +28,7 @@ RUN dnf install git tar --assumeyes && \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
-    && nvm use defaultdocker 
+    && nvm use default
 
 
 ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
@@ -36,5 +36,5 @@ ENV PATH=$NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
-    useradd -m -s /bin/bash -u 1000 -g gen3 gen3
-
+    useradd -m -s /bin/bash -u 1000 -g gen3 gen3 && \
+    chmod 777 $NVM_DIR/nvm.sh
