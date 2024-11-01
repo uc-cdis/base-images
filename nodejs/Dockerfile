@@ -7,19 +7,7 @@ FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="nodejs-build-base"
 
-# # Install python build dependencies
-# RUN dnf update \
-#         --assumeyes \
-#     && dnf install \
-#         --assumeyes \
-#         --setopt=install_weak_deps=False \
-#         --setopt=tsflags=nodocs \
-#         tar \
-#         git \
-#     && dnf clean all \
-#     && rm -rf /var/cache/yum
-
-# Install nvm
+# Install dependencies
 RUN dnf install git tar --assumeyes
 
 ENV NVM_DIR=/home/gen3/.nvm
