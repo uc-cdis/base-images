@@ -5,7 +5,7 @@ on:
     inputs:
       tag:
         description: "The tag to apply to this build. Defaults to 'latest'."
-        default: "latest"
+        default: "master"
         required: false
   push:
     paths:
