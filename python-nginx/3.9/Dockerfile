@@ -49,7 +49,11 @@ USER gen3
 # Install Poetry via pipx
 RUN pipx install 'poetry<2.0'
 ENV PATH="/home/gen3/.local/bin:${PATH}"
+ENV PROMETHEUS_MULTIPROC_DIR="/var/tmp/prometheus_metrics"
 USER root
+
+RUN mkdir -p "${PROMETHEUS_MULTIPROC_DIR}" \
+    && chown gen3:gen3 "${PROMETHEUS_MULTIPROC_DIR}"
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
