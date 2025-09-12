@@ -1,6 +1,9 @@
 ARG AZLINUX_BASE_VERSION=master
 
-FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+# For local development
+FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
+
+# FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="python-build-base"
 LABEL version="3.9"
@@ -11,7 +14,7 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1
 
-# install python build dependencies
+# Install python build dependencies
 RUN dnf update \
         --assumeyes \
     && dnf install \
@@ -23,8 +26,17 @@ RUN dnf update \
     && dnf clean all \
     && rm -rf /var/cache/yum
 
-# create empty virtualenv
-RUN python3 -m venv /venv
+# Install pipx
+RUN python3 -m pip install pipx && \
+    python3 -m pipx ensurepath
 
-ENV PATH="/venv/bin:$PATH" \
-    VIRTUAL_ENV="/venv"
+# Create gen3 user
+RUN groupadd -g 1000 gen3 && \
+    useradd -m -s /bin/bash -u 1000 -g gen3 gen3
+
+USER gen3
+# Install Poetry via pipx
+RUN pipx install 'poetry<2.0'
+ENV PATH="/home/gen3/.local/bin:${PATH}"
+USER root
+
