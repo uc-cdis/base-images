@@ -25,4 +25,5 @@ jobs:
       OVERRIDE_REPO_NAME: "python3.13-nginx-al"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
       DOCKERFILE_BUILD_CONTEXT: "./python-nginx/3.13"
+      USE_QUAY_ONLY: true
     secrets: inherit
