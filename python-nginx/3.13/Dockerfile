@@ -1,4 +1,4 @@
-ARG AZLINUX_BASE_VERSION=hardened
+ARG AZLINUX_BASE_VERSION=feat_py3.13_hardened
 FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="python-nginx-build-base"
