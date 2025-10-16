@@ -46,5 +46,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Final cleanup for STIG/minimize image
 RUN rm -rf /tmp/* /var/tmp/* /var/log/*
 
+# 
 USER gen3
 CMD ["nginx", "-g", "daemon off;"]
