@@ -1,4 +1,4 @@
-name: Python 3.9 Build Base Image Build on Push
+name: Python 3.13 Build Base Image Build on Push
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
     name: Build Python build base image
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./python-build-base/3.9/Dockerfile"
-      OVERRIDE_REPO_NAME: "python-build-base-3.9"
+      DOCKERFILE_LOCATION: "./python-build-base/3.13/Dockerfile"
+      OVERRIDE_REPO_NAME: "python-build-base"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
-    secrets: inherit
+    secrets: inherit #pragma: allowlist secret
