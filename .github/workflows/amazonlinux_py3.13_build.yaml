@@ -53,9 +53,9 @@ jobs:
             base:
               - 'python3.13/build_base/**'
             gunicorn:
-              - 'python_base/**'
+              - 'python3.13/python_base/**'
             nginx:
-              - 'python_nginx/**'
+              - 'python3.13/python_nginx/**'
 
   # --- JOB 2: PYTHON 3.13 CORE BASE IMAGE BUILD ---
   build_base_image:
@@ -94,7 +94,8 @@ jobs:
   # --- JOB 3: PYTHON GUNICORN APPLICATION IMAGE BUILD ---
   build_gunicorn_image:
     name: Build Python Gunicorn App Image
-    needs: determine_changes
+    # This job now depends on both the file change check AND the successful completion of the base image build.
+    needs: [determine_changes, build_base_image]
     # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
     if: |
       github.event_name != 'push' || 
@@ -104,7 +105,7 @@ jobs:
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       # Dockerfile is in python_base/, context is python_base/
-      DOCKERFILE_LOCATION: "python_base/Dockerfile"
+      DOCKERFILE_LOCATION: "python3.13/python_base/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Gunicorn Image: 3.13-pythonbase tag for stable builds
@@ -127,7 +128,8 @@ jobs:
   # --- JOB 4: PYTHON NGINX PROXY IMAGE BUILD ---
   build_nginx_image:
     name: Build Python Nginx Proxy Image
-    needs: determine_changes
+    # This job now depends on both the file change check AND the successful completion of the base image build.
+    needs: [determine_changes, build_base_image]
     # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
     if: |
       github.event_name != 'push' || 
@@ -137,7 +139,7 @@ jobs:
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       # Dockerfile is in python_nginx/, context is python_nginx/
-      DOCKERFILE_LOCATION: "python_nginx/Dockerfile"
+      DOCKERFILE_LOCATION: "python3.13/python_nginx/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Nginx Image: 3.13-pythonnginx tag for stable builds
