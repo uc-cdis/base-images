@@ -18,7 +18,7 @@ RUN dnf -y update && \
     rm -rf /var/cache/dnf /var/cache/yum /var/lib/dnf /var/lib/yum /var/tmp/dnf* /var/tmp/yum* /tmp/dnf* /tmp/yum* \
     && rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* /usr/share/locale/*
 
-# # Create empty virtualenv
+# Create empty virtualenv
 RUN /usr/bin/python3.13 -m venv /venv
 
 ENV PATH="/venv/bin:$PATH" \
