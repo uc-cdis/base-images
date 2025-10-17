@@ -19,6 +19,10 @@ RUN update-crypto-policies --set FIPS
 # Hardening: Clean up root's shell history
 RUN rm -f /root/.bash_history /root/.wget-hsts
 
+# Create gen3 user
+RUN groupadd -g 1000 gen3 && \
+    useradd -m -s /bin/bash -u 1000 -g gen3 gen3
+
 # Set minimal environment variables
 ENV \
     LC_ALL=C.UTF-8 \

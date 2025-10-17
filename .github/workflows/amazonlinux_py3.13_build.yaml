@@ -1,0 +1,158 @@
+name: Python 3.13 Base, Gunicorn, and Nginx Image Builds
+
+on:
+  # Allows manual triggering of the workflow via the GitHub UI/API
+  workflow_dispatch:
+    inputs:
+      # Specific tag for the Core Base image
+      base_tag:
+        description: "Tag for the python3.13 base image."
+        default: "3.13-buildbase"
+        required: false
+      # Specific tag for the Gunicorn application image
+      gunicorn_tag:
+        description: "Tag for the Python Gunicorn application image."
+        default: "3.13-pythonbase"
+        required: false
+      # Specific tag for the Nginx proxy image
+      nginx_tag:
+        description: "Tag for the Python Nginx proxy image."
+        default: "3.13-pythonnginx"
+        required: false
+
+  # Triggers when files in any of the three relevant directories are pushed.
+  push:
+    paths:
+      - 'python3.13/build_base/**'
+      - 'python_base/**'
+      - 'python_nginx/**'
+
+  # Weekly scheduled build to ensure images are refreshed regularly (Sunday at 00:00 UTC)
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  # --- STEP 1: Determine which files have changed for conditional job execution ---
+  determine_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      base_changed: ${{ steps.filter.outputs.base }}
+      gunicorn_changed: ${{ steps.filter.outputs.gunicorn }}
+      nginx_changed: ${{ steps.filter.outputs.nginx }}
+    steps:
+      - uses: actions/checkout@v4
+        # We only need to check files on push/pull_request events. Manual/Schedule runs should always proceed.
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+
+      - uses: dorny/paths-filter@v3 # Specialized action for path filtering
+        id: filter
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        with:
+          # Define filters for each specific build directory
+          filters: |
+            base:
+              - 'python3.13/build_base/**'
+            gunicorn:
+              - 'python_base/**'
+            nginx:
+              - 'python_nginx/**'
+
+  # --- JOB 2: PYTHON 3.13 CORE BASE IMAGE BUILD ---
+  build_base_image:
+    name: Build Python 3.13 Core Base Image
+    needs: determine_changes
+    # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    if: |
+      github.event_name != 'push' || 
+      needs.determine_changes.outputs.base_changed == 'true'
+
+    # Calls your existing reusable workflow
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      # Build context is the parent directory of the Dockerfile
+      DOCKERFILE_LOCATION: "python3.13/build_base/Dockerfile"
+      # Pushing to the single, consolidated repository
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
+
+      # Tagging Logic for Base Image: 3.13-buildbase tag for stable builds
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "${{ github.event.inputs.base_tag }}"
+          elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
+            # Stable tag for master/main/schedule
+            echo "3.13-buildbase"
+          else
+            # Unique tag for feature branches to prevent collisions
+            echo "$BRANCH_NAME-3.13-buildbase"
+          fi
+        )
+
+    secrets: inherit
+
+  # --- JOB 3: PYTHON GUNICORN APPLICATION IMAGE BUILD ---
+  build_gunicorn_image:
+    name: Build Python Gunicorn App Image
+    needs: determine_changes
+    # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    if: |
+      github.event_name != 'push' || 
+      needs.determine_changes.outputs.gunicorn_changed == 'true'
+
+    # Calls your existing reusable workflow
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      # Dockerfile is in python_base/, context is python_base/
+      DOCKERFILE_LOCATION: "python_base/Dockerfile"
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
+
+      # Tagging Logic for Gunicorn Image: 3.13-pythonbase tag for stable builds
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "${{ github.event.inputs.gunicorn_tag }}"
+          elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
+            # Stable tags: use the specific tag + 'latest-pythonbase' for convenience
+            echo "3.13-pythonbase,latest-pythonbase"
+          else
+            # Unique tag for feature branches
+            echo "$BRANCH_NAME-3.13-pythonbase"
+          fi
+        )
+
+    secrets: inherit
+
+  # --- JOB 4: PYTHON NGINX PROXY IMAGE BUILD ---
+  build_nginx_image:
+    name: Build Python Nginx Proxy Image
+    needs: determine_changes
+    # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    if: |
+      github.event_name != 'push' || 
+      needs.determine_changes.outputs.nginx_changed == 'true'
+
+    # Calls your existing reusable workflow
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      # Dockerfile is in python_nginx/, context is python_nginx/
+      DOCKERFILE_LOCATION: "python_nginx/Dockerfile"
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
+
+      # Tagging Logic for Nginx Image: 3.13-pythonnginx tag for stable builds
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "${{ github.event.inputs.nginx_tag }}"
+          elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
+            # Stable tags: use the specific tag + 'latest-pythonnginx' for convenience
+            echo "3.13-pythonnginx,latest-pythonnginx"
+          else
+            # Unique tag for feature branches
+            echo "$BRANCH_NAME-3.13-pythonnginx"
+          fi
+        )
+
+    secrets: inherit

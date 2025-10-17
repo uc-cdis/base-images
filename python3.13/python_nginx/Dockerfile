@@ -25,10 +25,6 @@ RUN python3.13 -m pip install --upgrade pip && \
     python3.13 -m pip install pipx && \
     python3.13 -m pipx ensurepath
 
-# Create gen3 user
-RUN groupadd -g 1000 gen3 && \
-    useradd -m -s /bin/bash -u 1000 -g gen3 gen3
-
 # Harden nginx: allow port 80 for non-root, manage ownership
 RUN setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
     chown -R gen3:gen3 /var/log/nginx && \
