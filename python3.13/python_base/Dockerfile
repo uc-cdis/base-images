@@ -22,4 +22,4 @@ ENV PYTHONUNBUFFERED=1 \
 USER gen3
 
 # Set entrypoint (adjust "app:app" as needed for your code)
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8000"]
+CMD ["gunicorn", "app:app", "-c", "/app/gunicorn.conf.py", "-b", "0.0.0.0:8000"]
