@@ -1,5 +1,5 @@
-ARG AZLINUX_BASE_VERSION=hardened
-FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+ARG AZLINUX_BASE_VERSION=3.13-buildbase
+FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="python-app-base"
 LABEL version="3.13"
