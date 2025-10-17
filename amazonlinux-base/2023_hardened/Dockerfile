@@ -7,11 +7,16 @@ RUN dnf -y update && \
     dnf -y install \
         crypto-policies \
         crypto-policies-scripts \
+        shadow-utils \
         openssl \
         ca-certificates \
         --nodocs \
     && dnf clean all && \
     rm -rf /var/cache/dnf /var/cache/yum /var/lib/dnf /var/lib/yum /var/tmp/dnf* /var/tmp/yum* /tmp/dnf* /tmp/yum*
+
+# Create gen3 user
+RUN groupadd -g 1000 gen3 && \
+    useradd -m -s /bin/bash -u 1000 -g gen3 gen3
 
 # FIPS-Ready:
 RUN update-crypto-policies --set FIPS
