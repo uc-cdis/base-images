@@ -1,4 +1,4 @@
-ARG AZLINUX_BASE_VERSION=hardened
+ARG AZLINUX_BASE_VERSION=feat_py3.13_hardened
 
 FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
