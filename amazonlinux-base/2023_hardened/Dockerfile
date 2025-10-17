@@ -13,8 +13,7 @@ RUN dnf -y update && \
     && dnf clean all && \
     rm -rf /var/cache/dnf /var/cache/yum /var/lib/dnf /var/lib/yum /var/tmp/dnf* /var/tmp/yum* /tmp/dnf* /tmp/yum*
 
-# FIPS-Ready: Configure user-space libraries (like OpenSSL) to use only FIPS-approved algorithms.
-# This hardens crypto choices across environments and is essential for FIPS compliance on FIPS hosts.
+# FIPS-Ready:
 RUN update-crypto-policies --set FIPS
 
 # Hardening: Clean up root's shell history
@@ -25,7 +24,7 @@ ENV \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
-# Slim down the PATH for security
+# Slim down the PATH
 ENV PATH="/usr/local/bin:/usr/bin:/bin"
 
 # Mask unused services (like sshd and cron)
