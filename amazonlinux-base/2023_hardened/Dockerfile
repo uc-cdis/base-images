@@ -34,5 +34,4 @@ RUN echo "umask 027" >> /etc/profile
 # Additional STIG-inspired directory cleanups
 RUN rm -rf /tmp/* /var/tmp/* /var/log/*
 
-
 CMD ["/bin/bash"]
