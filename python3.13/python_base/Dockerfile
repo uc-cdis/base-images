@@ -5,7 +5,7 @@ LABEL name="python-app-base"
 LABEL version="3.13"
 
 # Copy your demo app
-COPY ./app /app
+COPY app /app
 
 # Ensure ownership by gen3 user
 RUN chown -R gen3:gen3 /app
