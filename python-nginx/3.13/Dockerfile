@@ -1,4 +1,4 @@
-ARG AZLINUX_BASE_VERSION=hardened
+ARG AZLINUX_BASE_VERSION=feat_py3.13_hardened
 FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL name="python-nginx-build-base"
@@ -46,5 +46,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Final cleanup for STIG/minimize image
 RUN rm -rf /tmp/* /var/tmp/* /var/log/*
 
+# 
 USER gen3
 CMD ["nginx", "-g", "daemon off;"]
