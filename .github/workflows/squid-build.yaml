@@ -47,7 +47,7 @@ jobs:
       # Set context to the parent directory of the Dockerfile to access shared entrypoint.sh
       DOCKERFILE_BUILD_CONTEXT: "./squid"
       # Target the 'amazonlinux_base' repository as requested
-      OVERRIDE_REPO_NAME: "amazonlinux_base"
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
       BUILD_PLATFORMS: "linux/amd64"
       # Apply the requested tag: '...-squid-hardened'
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)-squid-hardened"
