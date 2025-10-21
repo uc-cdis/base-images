@@ -4,23 +4,51 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "The tag to apply to this build. Defaults to 'latest'."
+        description: "The tag to apply to this build. Defaults to 'master'."
         default: "master"
         required: false
   push:
+    # Trigger on changes to either the unhardened or hardened Dockerfile paths
     paths:
-      - squid/**
+      - squid/Dockerfile
+      - squid/squid_hardened/Dockerfile
   schedule:
     - cron: '0 0 * * 0' # Weekly on Sunday at 00:00
 
 jobs:
-  SquidBuild:
-    name: Build Squid image
+  # ====================================================================
+  # JOB 1: Unhardened/Standard Squid Image Build
+  # Path: ./squid/Dockerfile -> Repo: squid
+  # ====================================================================
+  SquidStandardBuild:
+    name: Build Standard Squid Image
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
+      # Location of the unhardened Dockerfile
       DOCKERFILE_LOCATION: "./squid/Dockerfile"
+      # Set context to the parent directory of the Dockerfile to access shared entrypoint.sh
+      DOCKERFILE_BUILD_CONTEXT: "./squid"
+      # Target the 'squid' repository
       OVERRIDE_REPO_NAME: "squid"
       BUILD_PLATFORMS: "linux/amd64"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+    secrets: inherit
+
+  # ====================================================================
+  # JOB 2: Hardened Squid Image Build
+  # Path: ./squid/squid_hardened/Dockerfile -> Repo: amazonlinux_base
+  # ====================================================================
+  SquidHardenedBuild:
+    name: Build Hardened Squid Image
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      # Location of the hardened Dockerfile
+      DOCKERFILE_LOCATION: "./squid/squid_hardened/Dockerfile"
+      # Set context to the parent directory of the Dockerfile to access shared entrypoint.sh
       DOCKERFILE_BUILD_CONTEXT: "./squid"
+      # Target the 'amazonlinux_base' repository as requested
+      OVERRIDE_REPO_NAME: "amazonlinux_base"
+      BUILD_PLATFORMS: "linux/amd64"
+      # Apply the requested tag: '...-squid-hardened'
+      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)-squid-hardened"
     secrets: inherit
