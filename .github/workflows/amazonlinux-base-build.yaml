@@ -45,11 +45,11 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "${{ github.event.inputs.standard_tag }}"
           elif [ "$BRANCH_NAME" == "master" ]; then
-            echo "latest,master"
+            echo "latest"
           elif [ "$BRANCH_NAME" == "main" ]; then
-            echo "latest,main"
+            echo "latest"
           elif [ "${{ github.event_name }}" == "schedule" ]; then
-            echo "latest,main"
+            echo "latest"
           else
             # FIX: Append -standard to the branch name to prevent race conditions
             echo "$BRANCH_NAME-standard"
