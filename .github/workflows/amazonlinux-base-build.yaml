@@ -1,24 +1,89 @@
-name: AmazonLinux Base Image Build on Push
+name: AmazonLinux Base and Hardened Image Builds
 
 on:
+  # Allows manual triggering of the workflow via the GitHub UI/API
   workflow_dispatch:
     inputs:
-      tag:
-        description: "The tag to apply to this build. Defaults to 'latest'."
+      # Separate input for the standard image tag (default: latest)
+      standard_tag:
+        description: "Tag to apply to the Standard (master) base image."
         default: "latest"
         required: false
+      # Separate input for the hardened image tag (default: hardened)
+      hardened_tag:
+        description: "Tag to apply to the Hardened base image."
+        default: "hardened"
+        required: false
+
+  # Triggers when files in the amazonlinux-base directory are pushed
   push:
     paths:
       - amazonlinux-base/**
+
+  # Weekly scheduled build to ensure images are refreshed regularly
   schedule:
     - cron: '0 0 * * 6' # Weekly on Saturday at 00:00
 
 jobs:
-  AmazonLinuxBase2023:
-    name: Build AmazonLinux base image
+  # --- JOB 1: STANDARD IMAGE BUILD (e.g., master/latest) ---
+  build_standard_image:
+    name: Build Standard AmazonLinux Base Image
+
+    # Calls your existing reusable workflow for the standard Dockerfile
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./amazonlinux-base/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux-base"
-      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
-    secrets: inherit
+
+      # Updated Tag Logic for Standard Image:
+      # 1. If manual trigger, use input 'standard_tag'.
+      # 2. If push/schedule to 'master' (or 'main'), use 'latest' AND 'master/main' tags.
+      # 3. Otherwise (feature branch), use the branch name appended with '-standard'.
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "${{ github.event.inputs.standard_tag }}"
+          elif [ "$BRANCH_NAME" == "master" ]; then
+            echo "latest,master"
+          elif [ "$BRANCH_NAME" == "main" ]; then
+            echo "latest,main"
+          elif [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "latest,main"
+          else
+            # FIX: Append -standard to the branch name to prevent race conditions
+            echo "$BRANCH_NAME-standard"
+          fi
+        )
+
+    secrets: inherit # Inherits secrets required by the reusable workflow
+
+  # --- JOB 2: HARDENED IMAGE BUILD ---
+  build_hardened_image:
+    name: Build Hardened AmazonLinux Base Image
+
+    # This job runs in parallel with the standard build.
+    # Calls your existing reusable workflow for the hardened Dockerfile
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./amazonlinux-base/2023_hardened/Dockerfile"
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
+
+      # Updated Tag Logic for Hardened Image:
+      # 1. If manual trigger, use input 'hardened_tag'.
+      # 2. If push/schedule to 'master' (or 'main'), use 'hardened'.
+      # 3. Otherwise (feature branch), use the branch name appended with '-hardened'.
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "${{ github.event.inputs.hardened_tag }}"
+          elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "hardened"
+          else
+            # FIX: Append -hardened to the branch name to prevent race conditions
+            echo "$BRANCH_NAME-hardened"
+          fi
+        )
+
+    secrets: inherit # Inherits secrets required by the reusable workflow
