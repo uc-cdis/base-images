@@ -1,12 +1,17 @@
 FROM quay.io/cdis/golang-build-base:master
 
-ENV LOKI_VERSION=2.9.1
+ENV LOKI_VERSION=3.0.0
 
 RUN dnf install -y wget && \
     wget -q -O gpg.key https://rpm.grafana.com/gpg.key && \
     rpm --import gpg.key
 
 COPY grafana.repo /etc/yum.repos.d/
+
+RUN  yum install shadow-utils -y
+
+RUN groupadd -g 10001 loki && \
+    useradd -u 10001 loki -g loki
 
 RUN dnf install -y loki-${LOKI_VERSION}
 
