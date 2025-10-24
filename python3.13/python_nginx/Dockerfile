@@ -16,10 +16,6 @@ RUN dnf -y update && \
     && rm -rf /var/cache/dnf /var/lib/dnf /var/tmp/dnf* /tmp/dnf* \
     && rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* /usr/share/locale/*
 
-# Set python3 as python3.13 by default
-RUN ln -sf /usr/bin/python3.13 /usr/bin/python3 && \
-    ln -sf /usr/bin/pip3.13 /usr/bin/pip3
-
 # Install pipx using Python 3.13
 RUN python3.13 -m pip install --upgrade pip && \
     python3.13 -m pip install pipx && \
@@ -36,8 +32,12 @@ RUN /usr/sbin/setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
 USER gen3
 RUN pipx install 'poetry>=1.7,<2.0'
 ENV PATH="/home/gen3/.local/bin:${PATH}"
+
 USER root
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# Create empty virtualenv
+RUN /usr/bin/python3.13 -m venv /venv
 
 # Final cleanup for STIG/minimize image
 RUN rm -rf /tmp/* /var/tmp/* /var/log/*
