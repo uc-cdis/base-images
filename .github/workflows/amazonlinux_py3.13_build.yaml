@@ -106,6 +106,7 @@ jobs:
     with:
       # Dockerfile is in python_base/, context is python_base/
       DOCKERFILE_LOCATION: "python3.13/python_base/Dockerfile"
+      DOCKERFILE_BUILD_CONTEXT: : "./python3.13/python_base/"
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Gunicorn Image: 3.13-pythonbase tag for stable builds
