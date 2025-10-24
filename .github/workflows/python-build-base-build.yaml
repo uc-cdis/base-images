@@ -21,4 +21,5 @@ jobs:
       DOCKERFILE_LOCATION: "./python-build-base/3.9/Dockerfile"
       OVERRIDE_REPO_NAME: "python-build-base"
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+      DOCKERFILE_BUILD_CONTEXT: "./python-build-base/3.9"
     secrets: inherit
