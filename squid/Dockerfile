@@ -1,5 +1,5 @@
 ARG AZLINUX_BASE_VERSION=master
-FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
+FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 # FROM quay.io/cdis/amazonlinux-base:master
 
@@ -12,7 +12,8 @@ ENV SQUID_USER="squid" \
 
 # Update package lists and install the latest packages
 RUN dnf update -y && dnf upgrade -y && \
-    dnf -y install openssl-devel
+    dnf -y install openssl-devel which && \
+    dnf -y install shadow-utils
 
 # Create a non-root user for Squid with a strong random password
 RUN useradd -m -s /bin/bash squid
