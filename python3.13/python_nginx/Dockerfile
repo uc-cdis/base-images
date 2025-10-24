@@ -26,7 +26,7 @@ RUN python3.13 -m pip install --upgrade pip && \
     python3.13 -m pipx ensurepath
 
 # Harden nginx: allow port 80 for non-root, manage ownership
-RUN setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
+RUN /usr/sbin/setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
     chown -R gen3:gen3 /var/log/nginx && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \

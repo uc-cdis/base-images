@@ -140,6 +140,7 @@ jobs:
     with:
       # Dockerfile is in python_nginx/, context is python_nginx/
       DOCKERFILE_LOCATION: "python3.13/python_nginx/Dockerfile"
+      DOCKERFILE_BUILD_CONTEXT: "./python3.13/python_nginx/"
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Nginx Image: 3.13-pythonnginx tag for stable builds
