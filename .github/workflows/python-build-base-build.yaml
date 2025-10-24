@@ -1,4 +1,4 @@
-name: Python Build Base Image Build on Push
+name: Python 3.9 Build Base Image Build on Push
 
 on:
   workflow_dispatch:
