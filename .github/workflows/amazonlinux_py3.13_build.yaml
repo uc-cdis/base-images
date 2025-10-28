@@ -23,7 +23,6 @@ on:
   # Triggers when files in any of the three relevant directories are pushed.
   push:
     paths:
-      # FIX 1: These paths MUST match the paths used in the 'determine_changes'
       # job's 'paths-filter' step.
       - 'python3.13/build_base/**'
       - 'python3.13/python_base/**'
