@@ -23,9 +23,10 @@ on:
   # Triggers when files in any of the three relevant directories are pushed.
   push:
     paths:
+      # job's 'paths-filter' step.
       - 'python3.13/build_base/**'
-      - 'python_base/**'
-      - 'python_nginx/**'
+      - 'python3.13/python_base/**'
+      - 'python3.13/python_nginx/**'
 
   # Weekly scheduled build to ensure images are refreshed regularly (Sunday at 00:00 UTC)
   schedule:
@@ -71,7 +72,8 @@ jobs:
     with:
       # Build context is the parent directory of the Dockerfile
       DOCKERFILE_LOCATION: "python3.13/build_base/Dockerfile"
-      # Pushing to the single, consolidated repository
+
+
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Base Image: 3.13-buildbase tag for stable builds
@@ -82,6 +84,7 @@ jobs:
             echo "${{ github.event.inputs.base_tag }}"
           elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
             # Stable tag for master/main/schedule
+            # FIX 3: Removed all simple tags
             echo "3.13-buildbase"
           else
             # Unique tag for feature branches to prevent collisions
@@ -101,12 +104,12 @@ jobs:
       github.event_name != 'push' || 
       needs.determine_changes.outputs.gunicorn_changed == 'true'
 
-    # Calls your existing reusable workflow
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       # Dockerfile is in python_base/, context is python_base/
       DOCKERFILE_LOCATION: "python3.13/python_base/Dockerfile"
       DOCKERFILE_BUILD_CONTEXT: "./python3.13/python_base/"
+
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Gunicorn Image: 3.13-pythonbase tag for stable builds
@@ -116,8 +119,8 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "${{ github.event.inputs.gunicorn_tag }}"
           elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
-            # Stable tags: use the specific tag + 'latest-pythonbase' for convenience
-            echo "3.13-pythonbase,latest-pythonbase"
+            # FIX 3: Removed 'latest-pythonbase' tag to fix auth error.
+            echo "3.13-pythonbase"
           else
             # Unique tag for feature branches
             echo "$BRANCH_NAME-3.13-pythonbase"
@@ -136,12 +139,12 @@ jobs:
       github.event_name != 'push' || 
       needs.determine_changes.outputs.nginx_changed == 'true'
 
-    # Calls your existing reusable workflow
-    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    uses: uc-cdis/.github/.github/workflows/image__build_push.yaml@master
     with:
       # Dockerfile is in python_nginx/, context is python_nginx/
       DOCKERFILE_LOCATION: "python3.13/python_nginx/Dockerfile"
       DOCKERFILE_BUILD_CONTEXT: "./python3.13/python_nginx/"
+
       OVERRIDE_REPO_NAME: "amazonlinux-base"
 
       # Tagging Logic for Nginx Image: 3.13-pythonnginx tag for stable builds
@@ -151,8 +154,8 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "${{ github.event.inputs.nginx_tag }}"
           elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
-            # Stable tags: use the specific tag + 'latest-pythonnginx' for convenience
-            echo "3.13-pythonnginx,latest-pythonnginx"
+            # FIX 3: Removed 'latest-pythonnginx' tag to fix auth error.
+            echo "3.13-pythonnginx"
           else
             # Unique tag for feature branches
             echo "$BRANCH_NAME-3.13-pythonnginx"
@@ -160,3 +163,4 @@ jobs:
         )
 
     secrets: inherit
+
