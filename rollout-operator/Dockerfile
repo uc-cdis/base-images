@@ -12,7 +12,7 @@ WORKDIR /src/rollout-operator
 
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make ${BUILDTARGET}
 
-FROM quay.io/cdis/amazonlinux-base:master AS final
+FROM quay.io/cdis/amazonlinux-base:latest AS final
 
 COPY --from=build /src/rollout-operator/rollout-operator /bin/rollout-operator
 
