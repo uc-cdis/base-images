@@ -1,4 +1,4 @@
-ARG AZLINUX_BASE_VERSION=master
+ARG AZLINUX_BASE_VERSION=latest
 
 # For local development
 FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
@@ -36,10 +36,10 @@ RUN groupadd -g 1000 gen3 && \
 
 # Install nginx
 RUN yum install nginx -y && \
-    # allows nginx to run on port 80 without being root user
+    # allows nginx to run on port 80 without being root user \
     setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
     chown -R gen3:gen3 /var/log/nginx && \
-    # pipe nginx logs to stdout/stderr
+    # pipe nginx logs to stdout/stderr \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     mkdir -p /var/lib/nginx/tmp/client_body && \

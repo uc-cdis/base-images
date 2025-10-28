@@ -1,4 +1,4 @@
-FROM quay.io/cdis/amazonlinux-base:master
+FROM quay.io/cdis/amazonlinux-base:latest
 
 ENV GRAFANA_VERSION=12.2.1
 
