@@ -139,7 +139,7 @@ jobs:
       github.event_name != 'push' || 
       needs.determine_changes.outputs.nginx_changed == 'true'
 
-    uses: uc-cdis/.github/.github/workflows/image__build_push.yaml@master
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       # Dockerfile is in python_nginx/, context is python_nginx/
       DOCKERFILE_LOCATION: "python3.13/python_nginx/Dockerfile"
