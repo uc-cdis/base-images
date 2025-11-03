@@ -19,6 +19,7 @@ RUN dnf -y update && \
     && rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* /usr/share/locale/*
 
 # Create empty virtualenv
+USER gen3
 RUN /usr/bin/python3.13 -m venv /venv
 
 ENV PATH="/venv/bin:$PATH" \
