@@ -1,6 +1,6 @@
 FROM quay.io/cdis/golang-build-base:master
 
-ENV LOKI_VERSION=3.0.0
+ENV LOKI_VERSION=3.0.1
 
 RUN dnf install -y wget && \
     wget -q -O gpg.key https://rpm.grafana.com/gpg.key && \
