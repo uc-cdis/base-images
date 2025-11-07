@@ -20,6 +20,7 @@ RUN dnf -y update && \
 
 # Create empty virtualenv
 RUN /usr/bin/python3.13 -m venv /venv
+RUN chown -R gen3:gen3 /venv
 
 ENV PATH="/venv/bin:$PATH" \
     VIRTUAL_ENV="/venv"
