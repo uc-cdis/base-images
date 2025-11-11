@@ -40,7 +40,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN /usr/bin/python3.13 -m venv /venv
 
 # Final cleanup for STIG/minimize image
-RUN rm -rf /tmp/* /var/tmp/* /var/log/*
+RUN rm -rf /tmp/* /var/tmp/*
+RUN find /var/log -mindepth 1 ! -name 'nginx' -exec rm -rf {} +
+RUN rm -rf /var/log/nginx/*
+
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
 USER gen3
 CMD ["nginx", "-g", "daemon off;"]
