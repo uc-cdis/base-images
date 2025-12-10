@@ -29,7 +29,7 @@ RUN /usr/sbin/setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
 
 USER gen3
 RUN pipx install 'poetry>=1.7,<2.0'
-ENV PATH="/home/gen3/.local/bin:${PATH}"
+ENV PATH="/home/gen3/.local/bin:/usr/sbin:${PATH}"
 
 USER root
 COPY nginx.conf /etc/nginx/nginx.conf
