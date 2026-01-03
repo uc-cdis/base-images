@@ -15,7 +15,15 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VIRTUALENVS_CREATE=1
 
 # Install python build dependencies
-RUN dnf install python3.10 python3.10-pip -y
+RUN dnf groupinstall "Development Tools" -y \
+    && dnf install openssl-devel bzip2-devel libffi-devel zlib-devel -y \
+    && curl -O https://www.python.org/ftp/python/3.10.13/Python-3.10.13.tgz \
+    && tar xzf Python-3.10.13.tgz \
+    && cd Python-3.10.13 \
+    && ./configure --enable-optimizations \
+    && make altinstall \
+    && cd .. \
+    && rm -rf Python-3.10.13*
 RUN dnf update \
         --assumeyes \
     && dnf install \
