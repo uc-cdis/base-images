@@ -11,7 +11,7 @@ on:
     paths:
       - python3.10/**
   schedule:
-    - cron: '0 10 * * 0' # Weekly on Sunday at 00:00
+    - cron: '0 10 * * 0' # Weekly on Sunday at 00:10
 
 jobs:
   PythonBuildBase:
