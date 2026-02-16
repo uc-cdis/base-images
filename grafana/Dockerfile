@@ -13,7 +13,8 @@ RUN  yum install shadow-utils -y
 RUN groupadd -g 472 grafana && \
     useradd -u 472 grafana -g grafana
 
-RUN dnf install -y grafana-${GRAFANA_VERSION} && \
+RUN dnf clean all -y && rm -rf /var/cache/dnf && \
+    dnf install -y grafana-${GRAFANA_VERSION} && \
     chown -R grafana:grafana /usr/share/grafana /etc/grafana
 
 USER grafana
