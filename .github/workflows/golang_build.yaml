@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
     inputs:
       image_tag:
-        description: "Optional tag override (e.g., latest). If empty, uses GO_VERSION from Dockerfile."
-        default: ""
+        description: "Tag for the Go 1.26 image."
+        default: "golang1.26"
         required: false
 
   # Trigger on push to the Go directory
