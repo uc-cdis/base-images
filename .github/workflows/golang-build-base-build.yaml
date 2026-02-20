@@ -3,9 +3,9 @@ name: Golang Build Base Image Build on Push
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: "The tag to apply to this build. Defaults to 'latest'."
-        default: "latest"
+      image_tag:
+        description: "Optional tag override (e.g., latest). If empty, uses GO_VERSION from Dockerfile."
+        default: ""
         required: false
   push:
     paths:
@@ -14,11 +14,43 @@ on:
     - cron: '0 0 * * 0' # Weekly on Sunday at 00:00
 
 jobs:
+  compute_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.compute_go_version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: compute_go_version
+        shell: bash
+        run: |
+          # If workflow_dispatch input is provided, use it; otherwise use GO_VERSION
+          INPUT_TAG="${{ github.event_name == 'workflow_dispatch' && github.event.inputs.image_tag || '' }}"
+
+          if [[ -n "${INPUT_TAG}" ]]; then
+            FINAL_TAG="${INPUT_TAG}"
+          else
+            set -euo pipefail
+            DOCKERFILE="./golang-build-base/Dockerfile"
+
+            # Extract GO_VERSION from Dockerfile
+            GO_VERSION="$(grep -E '^\s*ARG\s+GO_VERSION=' "$DOCKERFILE" | head -n1 | cut -d= -f2 | tr -d '[:space:]')"
+
+            if [[ -z "${GO_VERSION}" ]]; then
+              echo "Failed to parse GO_VERSION from ${DOCKERFILE}" >&2
+              exit 1
+            fi
+
+            FINAL_TAG="go${GO_VERSION}"
+          fi
+
+          echo "tag=${FINAL_TAG}" >> "$GITHUB_OUTPUT"
   GolangBuildBase:
     name: Build Go build base image
+    needs: compute_tag
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./golang-build-base/Dockerfile"
       OVERRIDE_REPO_NAME: "golang-build-base"
-      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+      OVERRIDE_TAG_NAME: "${{ needs.compute_tag.outputs.tag }}"
     secrets: inherit
