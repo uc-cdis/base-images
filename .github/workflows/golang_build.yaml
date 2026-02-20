@@ -24,9 +24,9 @@ jobs:
 
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      # Assuming your Dockerfile is in a folder named 'golang1.26'
+      # Assuming your Dockerfile is in a folder named 'golang/go.1.26'
       DOCKERFILE_LOCATION: "golang/go1.26/Dockerfile"
-      DOCKERFILE_BUILD_CONTEXT: "go1.26"
+      DOCKERFILE_BUILD_CONTEXT: "golang/go1.26"
 
       # Puts it in the amazonlinux-base repo
       OVERRIDE_REPO_NAME: "amazonlinux-base"
