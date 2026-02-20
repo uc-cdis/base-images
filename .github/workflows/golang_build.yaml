@@ -12,7 +12,7 @@ on:
   # Trigger on push to the Go directory
   push:
     paths:
-      - 'golang/**'
+      - 'golang/go1.26/**'
 
   # Weekly schedule
   schedule:

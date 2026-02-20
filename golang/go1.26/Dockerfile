@@ -54,7 +54,6 @@ RUN dnf -y install --nodocs git && \
     dnf clean all && \
     rm -rf /var/cache/dnf /var/cache/yum
 
-
 # 6. Drop Privileges
 USER gen3
 WORKDIR /go
