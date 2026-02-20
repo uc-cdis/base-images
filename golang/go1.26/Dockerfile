@@ -46,6 +46,11 @@ COPY --from=builder --chown=1000:1000 /go /go
 # 750 = Owner (gen3) has full access. Group (gen3) has Read/Execute. World has NONE.
 RUN chmod -R 750 /usr/local/go
 
+RUN dnf -y install --nodocs git && \
+    dnf clean all && \
+    rm -rf /var/cache/dnf /var/cache/yum
+
+
 # 5. Drop Privileges
 USER gen3
 WORKDIR /go
