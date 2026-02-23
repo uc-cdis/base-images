@@ -4,6 +4,7 @@ USER root
 
 ARG TERRAGRUNT_VERSION=v0.63.6
 ARG INFRACOST_VERSION=v0.10.40
+ARG TF_VERSION=1.5.7
 
 # terragrunt
 RUN curl -fsSL -o /usr/local/bin/terragrunt \
@@ -14,5 +15,12 @@ RUN curl -fsSL -o /usr/local/bin/terragrunt \
 RUN curl -fsSL -o /usr/local/bin/infracost \
     "https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh" | VERSION=${INFRACOST_VERSION} sh\
   && chmod +x /usr/local/bin/infracost
+
+
+RUN curl -fsSL -o /tmp/terraform.zip \
+    "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip" \
+  && unzip -o /tmp/terraform.zip -d /usr/local/bin \
+  && rm -f /tmp/terraform.zip \
+  && terraform -version
 
 USER atlantis
