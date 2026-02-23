@@ -23,4 +23,6 @@ RUN curl -fsSL -o /tmp/terraform.zip \
   && rm -f /tmp/terraform.zip \
   && terraform -version
 
+RUN ln -s /usr/local/bin/terraform /usr/local/bin/terraform1.5.7
+
 USER atlantis
