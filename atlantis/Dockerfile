@@ -10,11 +10,9 @@ RUN curl -fsSL -o /usr/local/bin/terragrunt \
     "https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT_VERSION}/terragrunt_linux_amd64" \
   && chmod +x /usr/local/bin/terragrunt
 
-# infracost (cost estimation)
+# infracost
 RUN curl -fsSL -o /usr/local/bin/infracost \
     "https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh" | VERSION=${INFRACOST_VERSION} sh\
-  && chmod +x /usr/local/bin/infracost 
-
-RUN ls
+  && chmod +x /usr/local/bin/infracost
 
 USER atlantis
