@@ -36,7 +36,8 @@ RUN groupadd -g 1000 gen3 && \
 
 # Install nginx
 RUN yum install nginx -y && \
-    # allows nginx to run on port 80 without being root user \
+    # allows nginx to run on port 80 without being root user
+    cp /usr/sbin/nginx /usr/bin/nginx && \
     setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx && \
     chown -R gen3:gen3 /var/log/nginx && \
     # pipe nginx logs to stdout/stderr \
@@ -49,6 +50,7 @@ USER gen3
 # Install Poetry via pipx
 RUN pipx install 'poetry<2.0'
 ENV PATH="/home/gen3/.local/bin:${PATH}"
+RUN chmod -R g+rx /home/gen3
 USER root
 
 # Copy nginx config
