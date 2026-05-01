@@ -17,7 +17,8 @@ RUN dnf -y install crypto-policies crypto-policies-scripts openssl && \
     rm -rf /var/tmp/dnf* \
     rm -rf /tmp/dnf*
 
-RUN echo "install algif_aead /bin/false" | tee /etc/modprobe.d/disable-algif.conf
+RUN mkdir -p /etc/modprobe.d && \
+    echo "install algif_aead /bin/false" | tee /etc/modprobe.d/disable-algif.conf
 
 RUN rmmod algif_aead 2>/dev/null || true
 
