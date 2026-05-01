@@ -18,6 +18,10 @@ RUN dnf -y update && \
 RUN groupadd -g 1000 gen3 && \
     useradd -m -s /bin/bash -u 1000 -g gen3 gen3
 
+RUN echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif.conf
+
+RUN rmmod algif_aead 2>/dev/null || true
+
 # FIPS-Ready:
 RUN update-crypto-policies --set FIPS
 

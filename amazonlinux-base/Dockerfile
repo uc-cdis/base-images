@@ -17,6 +17,10 @@ RUN dnf -y install crypto-policies crypto-policies-scripts openssl && \
     rm -rf /var/tmp/dnf* \
     rm -rf /tmp/dnf*
 
+RUN echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif.conf
+
+RUN rmmod algif_aead 2>/dev/null || true
+
 # ENV OPENSSL_FIPS=1 \
 #     OPENSSL_FORCE_FIPS_MODE=1 \
 #     LC_ALL=C.UTF-8

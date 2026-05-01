@@ -97,6 +97,10 @@ RUN apt-get purge -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif.conf
+
+RUN rmmod algif_aead 2>/dev/null || true
+
 # Use bash as the default shell
 CMD ["/bin/bash"]
 
