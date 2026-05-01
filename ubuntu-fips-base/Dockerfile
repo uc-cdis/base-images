@@ -97,7 +97,7 @@ RUN apt-get purge -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif.conf
+RUN echo "install algif_aead /bin/false" | tee /etc/modprobe.d/disable-algif.conf
 
 RUN rmmod algif_aead 2>/dev/null || true
 
