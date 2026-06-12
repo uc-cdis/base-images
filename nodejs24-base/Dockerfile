@@ -3,7 +3,7 @@ ARG AZLINUX_BASE_VERSION=latest
 # For local development
 FROM 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
-LABEL name="nodejs-build-base"
+LABEL name="nodejs24-build-base"
 
 # Install dependencies
 RUN dnf install git tar --assumeyes
