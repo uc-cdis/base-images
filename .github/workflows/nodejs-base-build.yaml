@@ -8,6 +8,8 @@ on:
         default: "latest"
         required: false
   push:
+    branches:
+      - feat/nodejs24
     paths:
       - nodejs-base/**
       - nodejs24-base/**
