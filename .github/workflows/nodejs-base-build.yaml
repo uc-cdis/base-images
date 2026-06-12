@@ -23,3 +23,12 @@ jobs:
       OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
       DOCKERFILE_BUILD_CONTEXT: "./nodejs-base"
     secrets: inherit
+  NodeJS24Base:
+    name: Build NodeJS v24 base image
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./nodejs24-base/Dockerfile"
+      OVERRIDE_REPO_NAME: "nodejs24-base"
+      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+      DOCKERFILE_BUILD_CONTEXT: "./nodejs24-base"
+    secrets: inherit
