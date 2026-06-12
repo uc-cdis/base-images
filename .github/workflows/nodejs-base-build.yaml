@@ -31,7 +31,23 @@ jobs:
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       DOCKERFILE_LOCATION: "./nodejs24-base/Dockerfile"
-      OVERRIDE_REPO_NAME: "nodejs24-base"
-      OVERRIDE_TAG_NAME: "$(echo ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || format('{0}', github.head_ref || github.ref_name) }} | tr / _)"
+
+      # update to preferred security setup, where this is a tag in the 
+      # amazonlinux-base repo. Leaving the old nodejs-base alone for now
+      OVERRIDE_REPO_NAME: "amazonlinux-base"
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "${{ github.event.inputs.base_tag }}"
+          elif [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ] || [ "${{ github.event_name }}" == "schedule" ]; then
+            # Stable tag for master/main/schedule
+            echo "nodejs24-base"
+          else
+            # Unique tag for feature branches to prevent collisions
+            echo "$BRANCH_NAME-24-nodejs-base"
+          fi
+        )
+
       DOCKERFILE_BUILD_CONTEXT: "./nodejs24-base"
     secrets: inherit
