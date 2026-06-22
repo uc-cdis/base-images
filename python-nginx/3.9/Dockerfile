@@ -49,7 +49,13 @@ USER gen3
 # Install Poetry via pipx
 RUN pipx install 'poetry<2.0'
 ENV PATH="/home/gen3/.local/bin:${PATH}"
+ENV PROMETHEUS_MULTIPROC_DIR="/var/tmp/prometheus_metrics"
 USER root
+
+# Run Prometheus entrypoint script
+COPY prometheus-entrypoint.sh /usr/local/bin/prometheus-entrypoint.sh
+RUN chmod +x /usr/local/bin/prometheus-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/prometheus-entrypoint.sh"]
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
