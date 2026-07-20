@@ -2,9 +2,9 @@ FROM ghcr.io/runatlantis/atlantis:v0.40.0
 
 USER root
 
-ARG TERRAGRUNT_VERSION=v0.63.6
+ARG TERRAGRUNT_VERSION=v1.0.3
 ARG INFRACOST_VERSION=v0.10.40
-ARG TF_VERSION=1.5.7
+ARG TF_VERSION=1.14.9
 
 # terragrunt
 RUN curl -fsSL -o /usr/local/bin/terragrunt \
