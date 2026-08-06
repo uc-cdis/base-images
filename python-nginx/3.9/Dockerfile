@@ -47,7 +47,7 @@ RUN yum install nginx -y && \
 
 USER gen3
 # Install Poetry via pipx
-RUN pipx install 'poetry<2.0'
+RUN pipx install poetry
 ENV PATH="/home/gen3/.local/bin:${PATH}"
 USER root
 
