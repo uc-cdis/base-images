@@ -4,15 +4,17 @@ FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 LABEL name="python-uv-base"
 LABEL version="3.13"
 
-# Base for uv-managed Python apps that serve HTTP themselves. The app binds its own port.
-# Applications resolve their dependencies into /venv from their own uv.lock.
+# Base for uv-managed Python apps that serve HTTP themselves, with no in-container Nginx. The app
+# binds its own port. Applications resolve their dependencies into /venv from their own uv.lock.
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONIOENCODING=UTF-8
 
-# Track the latest uv release. Downstream services install from a committed uv.lock,
-# so uv does not choose dependency versions and a bump cannot silently change what
-# gets installed. This MAY break if the lock file format changes, but that will fail loudly
+# Track the latest uv release. Downstream services install from a committed uv.lock with
+# `--frozen`, so uv does not choose dependency versions and a bump cannot silently change what
+# gets installed. The frozen flag is important! A plain `uv sync` re-locks when the lockfile is stale.
+#
+# IMPORTANT: Using latest uv MAY break apps, if the lock file format changes, but that will fail loudly
 # during a build and we can either update the lock file (preferred) or pin a uv version here
 # (non-ideal).
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/

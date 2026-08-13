@@ -118,9 +118,15 @@ jobs:
     # This job now depends on both the file change check AND the successful completion of the base image build.
     needs: [determine_changes, build_base_image]
     # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    #
+    # Note: build_base_image is skipped on any push that does not touch build_base/. 
+    # A skipped base just means the published base tag
+    # is still *current*, so it is safe to proceed - a *failed* base means we should stop.
     if: |
-      github.event_name != 'push' || 
-      needs.determine_changes.outputs.gunicorn_changed == 'true'
+      !cancelled() &&
+      (needs.build_base_image.result == 'success' || needs.build_base_image.result == 'skipped') &&
+      (github.event_name != 'push' ||
+       needs.determine_changes.outputs.gunicorn_changed == 'true')
 
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
@@ -153,9 +159,15 @@ jobs:
     # This job now depends on both the file change check AND the successful completion of the base image build.
     needs: [determine_changes, build_base_image]
     # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    #
+    # Note: build_base_image is skipped on any push that does not touch build_base/. 
+    # A skipped base just means the published base tag
+    # is still *current*, so it is safe to proceed - a *failed* base means we should stop.
     if: |
-      github.event_name != 'push' || 
-      needs.determine_changes.outputs.nginx_changed == 'true'
+      !cancelled() &&
+      (needs.build_base_image.result == 'success' || needs.build_base_image.result == 'skipped') &&
+      (github.event_name != 'push' ||
+       needs.determine_changes.outputs.nginx_changed == 'true')
 
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
@@ -186,9 +198,16 @@ jobs:
   build_uv_image:
     name: Build Python uv App Image
     needs: [determine_changes, build_base_image]
+    # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    #
+    # Note: build_base_image is skipped on any push that does not touch build_base/. 
+    # A skipped base just means the published base tag
+    # is still *current*, so it is safe to proceed - a *failed* base means we should stop.
     if: |
-      github.event_name != 'push' ||
-      needs.determine_changes.outputs.uv_changed == 'true'
+      !cancelled() &&
+      (needs.build_base_image.result == 'success' || needs.build_base_image.result == 'skipped') &&
+      (github.event_name != 'push' ||
+       needs.determine_changes.outputs.uv_changed == 'true')
 
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
@@ -217,9 +236,16 @@ jobs:
   build_poetry_image:
     name: Build Python Poetry App Image
     needs: [determine_changes, build_base_image]
+    # Condition: ONLY run if manual/schedule OR the relevant files were changed in the push.
+    #
+    # Note: build_base_image is skipped on any push that does not touch build_base/. 
+    # A skipped base just means the published base tag
+    # is still *current*, so it is safe to proceed - a *failed* base means we should stop.
     if: |
-      github.event_name != 'push' ||
-      needs.determine_changes.outputs.poetry_changed == 'true'
+      !cancelled() &&
+      (needs.build_base_image.result == 'success' || needs.build_base_image.result == 'skipped') &&
+      (github.event_name != 'push' ||
+       needs.determine_changes.outputs.poetry_changed == 'true')
 
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:

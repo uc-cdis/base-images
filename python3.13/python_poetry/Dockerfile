@@ -18,8 +18,8 @@ RUN python3.13 -m pip install --no-cache-dir --upgrade pip && \
 # Non-root by default so a derived image has to opt *in* to root rather than remember to opt out.
 USER gen3
 
-# Track the latest Poetry release. A Poetry bump does not choose dependency versions, and
-# an incompatible lock format fails loudly at build time.
+# Track the latest Poetry release. Services install from a committed poetry.lock, so a Poetry bump
+# does not choose dependency versions, and an incompatible lock format fails loudly at build time.
 #
 # Note this is a major ahead of 3.13-pythonnginx, which pins `>=1.7,<2.0`, so moving a service
 # from that image to this one is also a Poetry 1.x -> 2.x migration. `poetry install --sync` still

@@ -29,11 +29,13 @@ A) Have migrated from poetry to uv
 B) Ideally have migrated from Flask **or** FastAPI w/ deprecated use of Gunicorn -> FastAPI w/ uvicorn only
 
 - This incidentally also removes the argument for nginx in front, b/c if you're FastAPI w/ uvicorn, you're using an async gateway (ASGI),
-  which defeats the benefit of the complexity of nginx fronting requests (which was historically a pattern to deal with buffering, etc for _syncronous_ gateways, e.g. WSGI)
+  which defeats the benefit of the complexity of nginx fronting requests (which was historically a pattern to deal with buffering, etc for _synchronous_ gateways, e.g. WSGI)
 
-If the underlying app is FastAPI, but not using `uv` yet, then use `3.13-pythonpoetry` and make sure you satify B above.
+If the underlying app is FastAPI, but not using `uv` yet, then use `3.13-pythonpoetry` and make sure you satisfy B above.
 
 Try to avoid the "nginx in the same container fronting Gunicorn+Uvicorn worker" pattern in `3.13-pythonnginx` if the app is FastAPI - it is deprecated and not recommended or needed.
+
+If the app is still WSGI (e.g. Flask on Gunicorn) and serves without nginx, use `3.13-pythonbase`. WSGI handles one request per worker/thread, so there worker count *is* how you get concurrency.
 
 ### Moving a FastAPI service off Gunicorn
 
