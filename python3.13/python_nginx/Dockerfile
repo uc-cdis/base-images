@@ -43,5 +43,16 @@ RUN find /var/log -mindepth 1 ! -name 'nginx' -exec rm -rf {} +
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Set env var for Prometheus multiprocess support and setup directory
+ENV PROMETHEUS_MULTIPROC_DIR="/var/tmp/prometheus_metrics"
+RUN mkdir -p "${PROMETHEUS_MULTIPROC_DIR}" && \
+    chown -R gen3:gen3 "${PROMETHEUS_MULTIPROC_DIR}" && \
+    chmod 0775 "${PROMETHEUS_MULTIPROC_DIR}"
+
+# Run Prometheus entrypoint script
+COPY prometheus-entrypoint.sh /usr/local/bin/prometheus-entrypoint.sh
+RUN chmod +x /usr/local/bin/prometheus-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/prometheus-entrypoint.sh"]
+
 USER gen3
 CMD ["nginx", "-g", "daemon off;"]
