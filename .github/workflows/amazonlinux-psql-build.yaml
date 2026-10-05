@@ -1,4 +1,4 @@
-name: AmazonLinux Base and Hardened Image Builds
+name: AmazonLinux SQL Hardened Image Build
 
 on:
   # Allows manual triggering of the workflow via the GitHub UI/API
