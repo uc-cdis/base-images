@@ -1,17 +1,12 @@
-name: AmazonLinux SQL Hardened Image Build
+name: AmazonLinux PSQL Client and Hardened Image Builds
 
 on:
   # Allows manual triggering of the workflow via the GitHub UI/API
   workflow_dispatch:
     inputs:
-      # Separate input for the standard image tag (default: latest)
-      standard_tag:
-        description: "Tag to apply to the Standard (master) base image."
-        default: "latest"
-        required: false
       # Separate input for the hardened image tag (default: hardened)
       hardened_tag:
-        description: "Tag to apply to the Hardened base image."
+        description: "Tag to apply to the Hardened base psql image."
         default: "hardened"
         required: false
 
@@ -25,9 +20,9 @@ on:
     - cron: '0 0 * * 6' # Weekly on Saturday at 00:00
 
 jobs:
-  # --- JOB 1: HARDENED IMAGE BUILD (e.g., master/latest) ---
-  build_hardened_psql_image:
-    name: Build Hardened AmazonLinux PSQL Image
+  # --- JOB 1: HARDENED IMAGE BUILD ---
+  build_hardened_image:
+    name: Build Hardened AmazonLinux PSQL Image (Hardened)
 
     # This job runs in parallel with the standard build.
     # Calls your existing reusable workflow for the hardened Dockerfile
