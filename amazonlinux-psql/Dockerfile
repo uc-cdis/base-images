@@ -4,6 +4,7 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:${AZLINUX_VERSION}
 
 ARG PG_MAJOR=17
 ARG AL_RELEASE=latest
+ARG KUBECTL_VERSION=v1.36.1
 
 # Get system updates and install essential packages (crypto tools too)
 RUN dnf -y update && \
@@ -16,6 +17,26 @@ RUN dnf -y update && \
         --nodocs \
     && dnf clean all && \
     rm -rf /var/cache/dnf /var/cache/yum /var/lib/dnf /var/lib/yum /var/tmp/dnf* /var/tmp/yum* /tmp/dnf* /tmp/yum*
+
+RUN set -eu; \
+    dnf install -y curl-minimal ca-certificates; \
+    dnf clean all; \
+    case "$(uname -m)" in \
+      x86_64) KUBECTL_ARCH=amd64 ;; \
+      aarch64) KUBECTL_ARCH=arm64 ;; \
+      *) echo "Unsupported architecture"; exit 1 ;; \
+    esac; \
+    KUBECTL_VERSION="${KUBECTL_VERSION:-$(curl -fsSL https://dl.k8s.io/release/stable.txt)}"; \
+    KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${KUBECTL_ARCH}"; \
+    KUBECTL_TMP="$(mktemp -d)"; \
+    cd "$KUBECTL_TMP"; \
+    curl -fsSLO "${KUBECTL_URL}/kubectl"; \
+    curl -fsSLO "${KUBECTL_URL}/kubectl.sha256"; \
+    echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check; \
+    install -m 0755 kubectl /usr/local/bin/kubectl; \
+    cd /; \
+    rm -rf "$KUBECTL_TMP"; \
+    kubectl version --client
 
 # Create gen3 user
 RUN groupadd -g 1000 gen3 && \
