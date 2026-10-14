@@ -26,10 +26,11 @@ jobs:
 
     # This job runs in parallel with the standard build.
     # Calls your existing reusable workflow for the hardened Dockerfile
-    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    uses: uc-cdis/.github/.github/workflows/image_build_push_native.yaml@master
     with:
       DOCKERFILE_LOCATION: "./amazonlinux-psql/Dockerfile"
       OVERRIDE_REPO_NAME: "amazonlinux-psql"
+      USE_QUAY_ONLY: true
 
       # Updated Tag Logic for Hardened Image:
       # 1. If manual trigger, use input 'hardened_tag'.
