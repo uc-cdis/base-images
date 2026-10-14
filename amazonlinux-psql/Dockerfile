@@ -6,6 +6,7 @@ ARG PG_MAJOR=17
 ARG AL_RELEASE=latest
 ARG KUBECTL_VERSION=v1.36.1
 
+
 # Get system updates and install essential packages (crypto tools too)
 RUN dnf -y update && \
     dnf -y install \
