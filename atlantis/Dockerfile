@@ -2,9 +2,9 @@ FROM ghcr.io/runatlantis/atlantis:v0.40.0
 
 USER root
 
-ARG TERRAGRUNT_VERSION=v0.63.6
+ARG TERRAGRUNT_VERSION=v1.0.3
 ARG INFRACOST_VERSION=v0.10.40
-ARG TF_VERSION=1.5.7
+ARG TF_VERSION=1.14.9
 
 # terragrunt
 RUN curl -fsSL -o /usr/local/bin/terragrunt \
@@ -23,6 +23,6 @@ RUN curl -fsSL -o /tmp/terraform.zip \
   && rm -f /tmp/terraform.zip \
   && terraform -version
 
-RUN ln -s /usr/local/bin/terraform /usr/local/bin/terraform1.5.7
+RUN ln -s /usr/local/bin/terraform /usr/local/bin/terraform${TF_VERSION}
 
 USER atlantis
