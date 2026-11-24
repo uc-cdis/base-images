@@ -2,7 +2,7 @@ FROM ghcr.io/runatlantis/atlantis:v0.40.0
 
 USER root
 
-RUN apk add --no-cache jq
+RUN apk add --no-cache yq
 
 ARG TERRAGRUNT_VERSION=v1.0.3
 ARG INFRACOST_VERSION=v0.10.40
