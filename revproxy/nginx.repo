@@ -1,0 +1,10 @@
+# https://nginx.org/en/linux_packages.html#Amazon-Linux
+# Mainline only (1.3x). Only used by the build stage; it is not shipped in the final image.
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://nginx.org/packages/mainline/amzn/2023/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+priority=9

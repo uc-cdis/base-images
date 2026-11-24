@@ -1,0 +1,34 @@
+name: Revproxy nginx (drop-in, modsec) Image Build on Push
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - revproxy/**
+      - .github/workflows/revproxy-build.yaml
+  schedule:
+    - cron: '0 0 * * 0' # Weekly on Sunday at 00:00 (picks up new nginx 1.3x / base updates)
+
+jobs:
+  RevproxyBuild:
+    name: Build revproxy nginx image (drop-in replacement)
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./revproxy/Dockerfile"
+      DOCKERFILE_BUILD_CONTEXT: "./revproxy"
+      BUILD_PLATFORMS: "linux/amd64"
+      # Goes into the existing nginx repo: quay.io/cdis/nginx and ECR gen3/nginx (same tag in both).
+      OVERRIDE_REPO_NAME: "nginx"
+      # Never 'latest' and never the branch name alone: the nginx repos already have tags in use
+      # (master, 1.31.9, ...). master/main publishes revproxy-1.3; any other branch publishes
+      # revproxy-1.3-<branch> so a feature branch can't overwrite it.
+      OVERRIDE_TAG_NAME: |
+        $(
+          BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | tr / _)
+          if [ "$BRANCH_NAME" == "master" ] || [ "$BRANCH_NAME" == "main" ]; then
+            echo "revproxy-1.3"
+          else
+            echo "revproxy-1.3-$BRANCH_NAME"
+          fi
+        )
+    secrets: inherit #pragma: allowlist secret
